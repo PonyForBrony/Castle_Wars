@@ -53,7 +53,7 @@ public class Build : MonoBehaviour
                 localCursor = Instantiate(buildBlock);
                 localCursor.tag = "Cursor";
                 localCursor.SendMessage("onCursor");
-                //localCursor.GetComponent<MeshCollider>().enabled = false;
+                localCursor.GetComponent<MeshCollider>().enabled = false;
                 localCursor.GetComponent<Collider>().isTrigger=true;
                 localCursor.GetComponent<BoxCollider>().size = new Vector3(0.999f,0.999f,0.999f);
                 localCursor.transform.SetParent(BlockCoordSys);
