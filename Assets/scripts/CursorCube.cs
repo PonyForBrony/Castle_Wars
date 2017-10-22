@@ -7,6 +7,7 @@ public class CursorCube : MonoBehaviour
 
     public Color tRed, tBlue, tGreen;
     public Material instaceMaterial,cursorMaterial;
+    public Vector3 inCastlePos;
     private int collisions;
 
     // Use this for initialization
@@ -42,6 +43,7 @@ public class CursorCube : MonoBehaviour
     void onCursor()
     {
         GetComponent<Renderer>().material = cursorMaterial;
+        GetComponent<MeshCollider>().enabled = false;
     }
 
     void OnTriggerEnter(Collider other)
