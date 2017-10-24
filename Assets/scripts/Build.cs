@@ -59,33 +59,52 @@ public class Build : MonoBehaviour
                     localCursor.SendMessage("setColor", "blue");
                 }
 
-                foreach (RaycastHit hit in hits)
-                    if (hit.transform.tag == "Buildable")
+                if(hits.Length!=0 && hits[0].transform.tag == "Buildable")
                     {
-                        if (hit.transform.position.y <= 0)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
-                        else 
-                        if (hit.normal.x == 1)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(1, 0, 0);
-                        else
-                        if (hit.normal.x == -1)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(1, 0, 0);
-                        else
-                        if (hit.normal.y == 1)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 1, 0);
-                        else
-                        if (hit.normal.y == -1)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 1, 0);
-                        else
-                        if (hit.normal.z == 1)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 0, 1);
-                        else
-                        if (hit.normal.z == -1)
-                            localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 0, 1);
+                    if (hits[0].transform.position.y < 0)
+                        localCursor.GetComponent<CursorCube>().inCastlePos = castle.buildOnTheGrowndCoord(hits[0].point);
+                    else
+                    if (hits[0].normal.x > 0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(1, 0, 0);
+                        Debug.Log("1");
+                    }
+                    else
+                    if (hits[0].normal.x < -0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(1, 0, 0);
+                        Debug.Log("2");
+                    }
+                    else
+                    if (hits[0].normal.y > 0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 1, 0);
+                        Debug.Log("3");
+                    }
+                    else
+                    if (hits[0].normal.y < -0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 1, 0);
+                        Debug.Log("4");
+                    }
+                    else
+                    if (hits[0].normal.z > 0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 0, 1);
+                        Debug.Log("5");
+                    }
+                    else
+                    if (hits[0].normal.z < -0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 0, 1);
+                        Debug.Log("6");
+                    }
+                        Debug.Log(hits[0].normal.ToString());
 
 
                         localCursor.transform.position = castle.getPosByElement(localCursor.GetComponent<CursorCube>().inCastlePos);
-                        Debug.Log(localCursor.transform.position);
+                        //Debug.Log(localCursor.transform.position);
+                        Debug.DrawLine(transform.position, hits[0].point, Color.blue);
 
                         if (putBlock)
                             doPutBlock();
@@ -102,6 +121,7 @@ public class Build : MonoBehaviour
         putBlock = false;
         GameObject tmp = Instantiate(buildBlock, localCursor.transform.position, Quaternion.identity);
         tmp.SendMessage("onInstantiate");
+        tmp.GetComponent<CursorCube>().inCastlePos = localCursor.GetComponent<CursorCube>().inCastlePos;
         tmp.tag = "Buildable";
     }
 
