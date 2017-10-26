@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class Build : MonoBehaviour
 {
-    public GameObject buildBlock,castleHandler;
+    public GameObject buildBlock, castleHandler;
     private Castle castle;
 
     private GameObject localCursor;
 
-    private bool getBlock, putBlock;
+    private bool getBlock, putBlock, onSurface;
 
     private float distance;
 
@@ -21,10 +21,10 @@ public class Build : MonoBehaviour
     private Ray rayToLand;
     private RaycastHit[] hits;
 
-
     // Use this for initialization
     void Start()
     {
+        onSurface = false;
         castle = castleHandler.GetComponent<Castle>();
         getBlock = true;
         putBlock = false;
@@ -42,78 +42,81 @@ public class Build : MonoBehaviour
         if (Input.anyKey || Input.GetAxis("Mouse ScrollWheel") != 0f)
             keyListener();
 
-        if (getBlock)
+        rayToLand.origin = transform.position;
+        rayToLand.direction = transform.forward;
+        hits = Physics.RaycastAll(rayToLand, distance).OrderBy(h => h.distance).ToArray();
+
+        if (getBlock && hits.Length != 0)
         {
-
-            rayToLand.origin = transform.position;
-            rayToLand.direction = transform.forward;
-            hits = Physics.RaycastAll(rayToLand, distance).OrderBy(h => h.distance).ToArray();
-
-            if (hits.Length != 0)
+            if (localCursor == null)
             {
-                if (localCursor == null)
-                {
-                    localCursor = Instantiate(buildBlock);
-                    localCursor.tag = "Cursor";
-                    localCursor.SendMessage("onCursor");
-                    localCursor.SendMessage("setColor", "blue");
-                }
-
-                if(hits.Length!=0 && hits[0].transform.tag == "Buildable")
-                    {
-                    if (hits[0].transform.position.y < 0)
-                        localCursor.GetComponent<CursorCube>().inCastlePos = castle.buildOnTheGrowndCoord(hits[0].point);
-                    else
-                    if (hits[0].normal.x > 0.999)
-                    {
-                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(1, 0, 0);
-                        Debug.Log("1");
-                    }
-                    else
-                    if (hits[0].normal.x < -0.999)
-                    {
-                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(1, 0, 0);
-                        Debug.Log("2");
-                    }
-                    else
-                    if (hits[0].normal.y > 0.999)
-                    {
-                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 1, 0);
-                        Debug.Log("3");
-                    }
-                    else
-                    if (hits[0].normal.y < -0.999)
-                    {
-                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 1, 0);
-                        Debug.Log("4");
-                    }
-                    else
-                    if (hits[0].normal.z > 0.999)
-                    {
-                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 0, 1);
-                        Debug.Log("5");
-                    }
-                    else
-                    if (hits[0].normal.z < -0.999)
-                    {
-                        localCursor.GetComponent<CursorCube>().inCastlePos = hits[0].transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 0, 1);
-                        Debug.Log("6");
-                    }
-                        Debug.Log(hits[0].normal.ToString());
-
-
-                        localCursor.transform.position = castle.getPosByElement(localCursor.GetComponent<CursorCube>().inCastlePos);
-                        //Debug.Log(localCursor.transform.position);
-                        Debug.DrawLine(transform.position, hits[0].point, Color.blue);
-
-                        if (putBlock)
-                            doPutBlock();
-
-                    }
+                localCursor = Instantiate(buildBlock);
+                localCursor.tag = "Cursor";
+                localCursor.SendMessage("onCursor");
+                localCursor.SendMessage("setColor", "blue");
             }
+
+            foreach (RaycastHit hit in hits)
+                if (hit.transform.tag == "Buildable")
+                {
+                    onSurface = true;
+                    if (hit.transform.position.y < 0)
+                        localCursor.GetComponent<CursorCube>().inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
+                    else
+                    if (hit.normal.x > 0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(1, 0, 0);
+                        //Debug.Log("1");
+                    }
+                    else
+                    if (hit.normal.x < -0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(1, 0, 0);
+                        //Debug.Log("2");
+                    }
+                    else
+                    if (hit.normal.y > 0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 1, 0);
+                        //Debug.Log("3");
+                    }
+                    else
+                    if (hit.normal.y < -0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 1, 0);
+                        //Debug.Log("4");
+                    }
+                    else
+                    if (hit.normal.z > 0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos + new Vector3(0, 0, 1);
+                        //Debug.Log("5");
+                    }
+                    else
+                    if (hit.normal.z < -0.999)
+                    {
+                        localCursor.GetComponent<CursorCube>().inCastlePos = hit.transform.gameObject.GetComponent<CursorCube>().inCastlePos - new Vector3(0, 0, 1);
+                        //Debug.Log("6");
+                    }
+                    //Debug.Log(hit.normal.ToString());
+
+
+                    localCursor.transform.position = castle.getPosByElement(localCursor.GetComponent<CursorCube>().inCastlePos);
+                    //Debug.Log(localCursor.transform.position);
+                    Debug.DrawLine(transform.position, hit.point, Color.blue);
+
+                    if (putBlock)
+                        doPutBlock();
+
+                    break;
+                }
+                else onSurface = false;
         }
         else if (localCursor != null)
+        {
+            onSurface = false;
             Destroy(localCursor);
+        }
     }
 
     private void doPutBlock()
@@ -134,7 +137,7 @@ public class Build : MonoBehaviour
                 getBlock = true;
 
 
-        if (Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(0))
+        if ((Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(0)) && onSurface == true)
             putBlock = true;
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0f)

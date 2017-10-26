@@ -43,7 +43,7 @@ public class CursorCube : MonoBehaviour
     void onCursor()
     {
         GetComponent<Renderer>().material = cursorMaterial;
-        GetComponent<MeshCollider>().enabled = false;
+        GetComponent<BoxCollider>().enabled = false;
     }
 
     void OnTriggerEnter(Collider other)

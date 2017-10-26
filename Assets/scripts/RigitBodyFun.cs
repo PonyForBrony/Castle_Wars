@@ -34,6 +34,7 @@ public class RigitBodyFun : MonoBehaviour
                 GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<Rigidbody>().angularVelocity = angularVelocity;
                 GetComponent<Rigidbody>().velocity = velocity;
+                transform.tag = "Fallen";
             }
         }
         oldP = PhysPouse.on;

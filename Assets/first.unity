@@ -218,9 +218,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSize: 0.5
-  sizeX: 1000
-  sizeY: 1000
-  sizeZ: 1000
+  sizeX: 10
+  sizeY: 10
+  sizeZ: 10
 --- !u!1 &1417040787
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +232,6 @@ GameObject:
   - component: {fileID: 1417040791}
   - component: {fileID: 1417040790}
   - component: {fileID: 1417040789}
-  - component: {fileID: 1417040788}
   m_Layer: 0
   m_Name: Grownd
   m_TagString: Buildable
@@ -240,17 +239,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!114 &1417040788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1417040787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dda7c0687c2e68847b4e5a378ed1441a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &1417040789
 MeshRenderer:
   m_ObjectHideFlags: 0

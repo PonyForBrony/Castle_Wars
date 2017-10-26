@@ -10,12 +10,12 @@ public class Castle : MonoBehaviour
 
     public void Start()
     {
-        Blocks = new GameObject[sizeX,sizeY,sizeZ];
+        //Blocks = new GameObject[sizeX,sizeY,sizeZ];
     }
 
     public Vector3 buildOnTheGrowndCoord(Vector3 pos)
     {
-        return new Vector3((int)((pos.x-transform.position.x)/cellSize),0,(int)((pos.z - transform.position.z) / cellSize));
+        return new Vector3(Mathf.RoundToInt((pos.x-transform.position.x)/cellSize),0, Mathf.RoundToInt((pos.z - transform.position.z) / cellSize));
     }
 
     public Vector3 getPosByElement(Vector3 element)
