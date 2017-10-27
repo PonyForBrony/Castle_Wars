@@ -15,13 +15,12 @@ public class Castle : MonoBehaviour
 
     public Vector3 buildOnTheGrowndCoord(Vector3 pos)
     {
-        Debug.Log(pos.y + cellSize / 2);
         return new Vector3(Mathf.RoundToInt((pos.x - transform.position.x) / cellSize), 0, Mathf.RoundToInt((pos.z - transform.position.z) / cellSize));
     }
 
     public Vector3 getPosByElement(Vector3 element)
     {
-        return transform.position + element * cellSize + new Vector3(0,cellSize/2,0);
+        return transform.position + element * cellSize + new Vector3(0, cellSize / 2, 0);
     }
 
 }

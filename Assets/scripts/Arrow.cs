@@ -28,7 +28,7 @@ public class Arrow : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         stucked = true;
-        other.SendMessage("applyDamage",damage);
+        //other.SendMessage("applyDamage",damage); //will be used after we'll write hp-script  
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<MeshCollider>().isTrigger = false;
