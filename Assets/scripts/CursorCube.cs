@@ -8,12 +8,11 @@ public class CursorCube : MonoBehaviour
     public Color tRed, tBlue, tGreen;
     public Material instaceMaterial,cursorMaterial;
     public Vector3 inCastlePos;
-    private int collisions;
 
     // Use this for initialization
     void Start()
     {
-        collisions = 0;
+
     }
 
     // Update is called once per frame
@@ -43,34 +42,6 @@ public class CursorCube : MonoBehaviour
     void onCursor()
     {
         GetComponent<Renderer>().material = cursorMaterial;
-        GetComponent<BoxCollider>().enabled = false;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        collisions++;
-        //Debug.Log("enter");
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        /*Debug.Log(collision.contacts.Length);
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            print(contact.thisCollider.name + " hit " + contact.otherCollider.name);
-            Debug.DrawRay(contact.point, contact.normal*10, Color.white);
-        }*/
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        collisions--;
-        //Debug.Log("exit");
-    }
-
-    public bool isColliding()
-    {
-        //Debug.Log(collisions);
-        return (collisions != 0);
+        GetComponent<BoxCollider>().isTrigger = true;
     }
 }
