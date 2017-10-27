@@ -11,6 +11,9 @@ public class Arrow : MonoBehaviour
     private void Start()
     {
         stucked = false;
+        /*for Test!!*/
+        GetComponent<Rigidbody>().velocity=transform.forward*15;
+        /*for Test!!*/
     }
 
     // Update is called once per frame
@@ -18,6 +21,8 @@ public class Arrow : MonoBehaviour
     {
         if (!stucked)
             GetComponent<Rigidbody>().rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity);
+        else
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,5 +31,7 @@ public class Arrow : MonoBehaviour
         other.SendMessage("applyDamage",damage);
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<MeshCollider>().convex = false;
+        GetComponent<MeshCollider>().isTrigger = false;
     }
 }
