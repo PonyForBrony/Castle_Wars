@@ -50,10 +50,10 @@ public class Build : MonoBehaviour
         if (getBlock && hits.Length != 0)
         {
 
-            String objects = "";
+            /*String objects = "";
             foreach (RaycastHit hit in hits)
                 objects += hit.transform.name + "  ";
-            Debug.Log(objects + "  " + hits.Length);
+            Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray*/
 
             if (localCursor == null)
             {

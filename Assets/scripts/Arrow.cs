@@ -31,7 +31,7 @@ public class Arrow : MonoBehaviour
         other.SendMessage("applyDamage",damage);
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<MeshCollider>().convex = false;
         GetComponent<MeshCollider>().isTrigger = false;
+        GetComponent<MeshCollider>().convex = false;
     }
 }
