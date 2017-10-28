@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23002132855262304}
   - component: {fileID: 54502010576125576}
   - component: {fileID: 114134244322541618}
+  - component: {fileID: 114127377862277020}
   - component: {fileID: 114659378482600848}
   - component: {fileID: 65817009760292620}
   m_Layer: 0
@@ -113,6 +114,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114127377862277020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457885683396256}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6698b2cf601b02e48be53bca4ffbac4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubeMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
 --- !u!114 &114134244322541618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,7 +141,6 @@ MonoBehaviour:
   tRed: {r: 1, g: 0, b: 0, a: 0.7764706}
   tBlue: {r: 0, g: 0, b: 1, a: 0.775}
   tGreen: {r: 0, g: 1, b: 0, a: 0.775}
-  instaceMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
   cursorMaterial: {fileID: 2100000, guid: 9ca5a06fced8b4a4fa6fdc0620ba5d1c, type: 2}
   inCastlePos: {x: 0, y: 0, z: 0}
 --- !u!114 &114659378482600848
