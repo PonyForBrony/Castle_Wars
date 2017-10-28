@@ -43,7 +43,6 @@ public class Cursor : MonoBehaviour
 
     void prepareToOperate(RaycastHit hit)
     {
-        onSurface = true;
         if (hit.transform.tag == "Buildable")
         {
             if (hit.normal.x > 0.999)
@@ -80,9 +79,7 @@ public class Cursor : MonoBehaviour
         {
             inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
         }
-        else onSurface = false;
 
-        if (onSurface)
             transform.position = castle.getPosByElement(inCastlePos);
     }
 
@@ -92,20 +89,7 @@ public class Cursor : MonoBehaviour
         {
             GameObject tmp = Instantiate(gameObject, transform.position, transform.rotation);
             tmp.GetComponent<Cursor>().enabled = false;
-            tmp.tag = "Buildable";
-            tmp.GetComponent<Renderer>().material = instaceMaterial;
-            tmp.GetComponent<Cursor>().inCastlePos = inCastlePos;
-            tmp.layer = 0;
+            tmp.GetComponent<Builded>().enabled = true;
         }
-    }
-
-    void hide()
-    {
-        GetComponent<Renderer>().enabled = false;
-    }
-
-    void show()
-    {
-        GetComponent<Renderer>().enabled = true;
     }
 }

@@ -33,28 +33,31 @@ public class Player : MonoBehaviour
         rayToLand.origin = transform.position;
         rayToLand.direction = transform.forward;
         hits = Physics.RaycastAll(rayToLand, maxBuildDist).OrderBy(h => h.distance).ToArray();
-
         if (Input.anyKey || Input.GetAxis("Mouse ScrollWheel") != 0f)
         {
-            if (keyListener() == 2) //state == change object
+            if (keyListener() == 4) //state == change object
                 changeObject(actionMode);
         }
 
-        /*String objects = "";
+        String objects = "";
         foreach (RaycastHit hit in hits)
             objects += hit.transform.name + "  ";
-        Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray and length of array of them*/
+        Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray and length of array of them
 
         switch (actionMode)
         {
             case 1:
                 if (hits.Length > 0)
                 {
-                    operateObj.SendMessage("show");
+                    if (operateObj == null)
+                        changeObject(actionMode);
+                    Debug.DrawLine(transform.position, hits[0].point, Color.blue);
                     operateObj.SendMessage("prepareToOperate", hits[0]);
+                    
                 }
                 else
-                    operateObj.SendMessage("hide");
+                    Destroy(operateObj);
+                    
                 break;
 
                 /*case 2:
@@ -67,18 +70,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    int keyListener()  //return 0->no changes , 1->object operate , 2->change object , 3->change PhysPouse
+    int keyListener()  //return binary code that has mouse button in 1 digit , changeMode in 2 , PhysPouse in 3
     {
         byte a = 0, b = 0, c = 0;
-        if (Input.GetMouseButtonDown(0))
+        if (operateObj != null)
         {
-            operateWithObj(0);
-            a = 1;
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            operateWithObj(1);
-            a = 1;
+            if (Input.GetMouseButtonDown(0))
+            {
+                operateWithObj(0);
+                a = 1;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                operateWithObj(1);
+                a = 1;
+            }
         }
 
         int tmp = actionMode;
@@ -100,11 +106,13 @@ public class Player : MonoBehaviour
 
     private void changeObject(int mode)
     {
+        if (operateObj != null)
         Destroy(operateObj);
         switch (mode)
         {
             case 1:
                 operateObj = Instantiate(block, hits[0].point, Quaternion.identity);
+
                 break;
 
             case 2:
