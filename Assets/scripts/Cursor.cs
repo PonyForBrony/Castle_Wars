@@ -90,7 +90,6 @@ public class Cursor : MonoBehaviour
             GameObject tmp = Instantiate(gameObject, transform.position, transform.rotation);
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
-            tmp.GetComponent<Cursor>().inCastlePos = inCastlePos;
         }
     }
 }

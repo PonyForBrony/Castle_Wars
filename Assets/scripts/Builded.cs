@@ -9,14 +9,14 @@ public class Builded : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GetComponent<Renderer>().material = cubeMaterial;
+        gameObject.layer = 0;
+        transform.tag = "Buildable";
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Renderer>().material = cubeMaterial;
-        gameObject.layer = 0;
-        transform.tag = "Buildable";
     }
 
 }
