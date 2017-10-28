@@ -7,7 +7,7 @@ public class Builded : MonoBehaviour
     public Material cubeMaterial;
 
     // Use this for initialization
-    void Start()
+    void Start() // set new characteristic for builded cube or other object
     {
         GetComponent<Renderer>().material = cubeMaterial;
         gameObject.layer = 0;
