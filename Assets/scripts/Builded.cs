@@ -12,6 +12,7 @@ public class Builded : MonoBehaviour
         GetComponent<Renderer>().material = cubeMaterial;
         gameObject.layer = 0;
         transform.tag = "Buildable";
+        GetComponent<BoxCollider>().enabled = true;
     }
 
     // Update is called once per frame
