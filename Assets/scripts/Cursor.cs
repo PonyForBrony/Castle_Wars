@@ -6,7 +6,7 @@ public class Cursor : MonoBehaviour
 {
     public Castle castle; 
     public Color tRed, tBlue, tGreen;
-    public Material instaceMaterial, cursorMaterial;
+    public Material cursorMaterial;
     public Vector3 inCastlePos;
 
     private bool onSurface;
@@ -90,6 +90,7 @@ public class Cursor : MonoBehaviour
             GameObject tmp = Instantiate(gameObject, transform.position, transform.rotation);
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
+            tmp.GetComponent<Cursor>().inCastlePos = inCastlePos;
         }
     }
 }
