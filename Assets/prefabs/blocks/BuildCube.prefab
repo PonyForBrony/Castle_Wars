@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6698b2cf601b02e48be53bca4ffbac4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
+  blockMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
 --- !u!114 &114134244322541618
 MonoBehaviour:
   m_ObjectHideFlags: 1
