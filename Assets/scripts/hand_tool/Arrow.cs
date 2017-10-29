@@ -22,7 +22,10 @@ public class Arrow : MonoBehaviour
     void FixedUpdate()
     {
         if (!stucked)
+        {
             GetComponent<Rigidbody>().rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity);
+            GetComponent<MeshCollider>().enabled = true;
+        }
         else
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
@@ -30,7 +33,7 @@ public class Arrow : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         stucked = true;
-        //other.SendMessage("applyDamage",damage); //will be used after we'll write hp-script  
+        //other.SendMessage("applyDamage",damage); //will be used after we'll write hp-script
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<MeshCollider>().isTrigger = false; // if you want to collide with it after shoot

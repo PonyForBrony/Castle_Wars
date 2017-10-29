@@ -1,13 +1,12 @@
 fileFormatVersion: 2
 guid: 6698b2cf601b02e48be53bca4ffbac4d
-timeCreated: 1509214626
+timeCreated: 1509291036
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - castle: {instanceID: 0}
-  - cubeMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
+  - blockMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

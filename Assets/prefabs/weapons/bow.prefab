@@ -95,4 +95,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 1555422837108904, guid: d55e9418f2339a84b9b8e0d843b91b6c, type: 2}
-  rechargeDelay: 0.1
+  rechargeDelay: 1
