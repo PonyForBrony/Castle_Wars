@@ -47,32 +47,32 @@ public class Cursor : MonoBehaviour
         {
             if (hit.normal.x > 0.999) 
             {
-                inCastlePos = hit.transform.GetComponent<Cursor>().inCastlePos + new Vector3(1, 0, 0);
+                inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() + new Vector3(1, 0, 0);
             }
             else
             if (hit.normal.x < -0.999)
             {
-                inCastlePos = hit.transform.GetComponent<Cursor>().inCastlePos - new Vector3(1, 0, 0);
+                inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() - new Vector3(1, 0, 0);
             }
             else
-            if (hit.normal.y > 0.999) // up
+            if (hit.normal.y > 0.999)  //direction -> up
             {
-                inCastlePos = hit.transform.GetComponent<Cursor>().inCastlePos + new Vector3(0, 1, 0);
+                inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() + new Vector3(0, 1, 0);
             }
             else
-            if (hit.normal.y < -0.999) // down
+            if (hit.normal.y < -0.999) //direction -> down
             {
-                inCastlePos = hit.transform.GetComponent<Cursor>().inCastlePos - new Vector3(0, 1, 0);
+                inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() - new Vector3(0, 1, 0);
             }
             else
             if (hit.normal.z > 0.999)
             {
-                inCastlePos = hit.transform.GetComponent<Cursor>().inCastlePos + new Vector3(0, 0, 1);
+                inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() + new Vector3(0, 0, 1);
             }
             else
             if (hit.normal.z < -0.999)
             {
-                inCastlePos = hit.transform.GetComponent<Cursor>().inCastlePos - new Vector3(0, 0, 1);
+                inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() - new Vector3(0, 0, 1);
             }
         }
         else if (hit.transform.tag == "Grownd") // if ray collide with ground
@@ -90,6 +90,7 @@ public class Cursor : MonoBehaviour
             GameObject tmp = Instantiate(gameObject, transform.position, transform.rotation);
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
+            tmp.GetComponent<Builded>().setInCastlePos(inCastlePos);
         }
     }
 }

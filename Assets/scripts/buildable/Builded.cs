@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class Builded : MonoBehaviour
 {
-    public Material cubeMaterial;
+    public Material blockMaterial;
+    private Vector3 inCastlePos;
+
+    public void setInCastlePos(Vector3 value)
+    {
+        inCastlePos = value;
+    }
+
+    public Vector3 getInCastlePos()
+    {
+        return inCastlePos;
+    }
+
 
     // Use this for initialization
     void Start() // set new characteristic for builded cube or other object
     {
-        GetComponent<Renderer>().material = cubeMaterial;
+        GetComponent<Renderer>().material = blockMaterial;
         gameObject.layer = 0;
         transform.tag = "Buildable";
         GetComponent<BoxCollider>().enabled = true;
