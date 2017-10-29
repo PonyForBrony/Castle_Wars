@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         switch (actionMode)
         {
             case 1:
-                if (hits.Length > 0)
+                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Grownd" || hits[0].transform.tag == "Buildable"))
                 {
                     if (operateObj == null)
                         changeObject(actionMode);
