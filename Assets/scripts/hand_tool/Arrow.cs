@@ -12,6 +12,7 @@ public class Arrow : MonoBehaviour
     {
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<MeshCollider>().enabled = true;
 
         stucked = false;
         
@@ -24,7 +25,6 @@ public class Arrow : MonoBehaviour
         if (!stucked)
         {
             GetComponent<Rigidbody>().rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity);
-            GetComponent<MeshCollider>().enabled = true;
         }
         else
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
