@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private GameObject Cursor;
+    public GameObject castle;
 
     public float maxBuildDist;
 
@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (castle == null)
+            castle = GameObject.Find("CastleHandler");
         rayToLand = new Ray();
         actionMode = 3;
     }
@@ -35,14 +37,14 @@ public class Player : MonoBehaviour
         hits = Physics.RaycastAll(rayToLand, maxBuildDist).OrderBy(h => h.distance).ToArray();
         if (Input.anyKey || Input.GetAxis("Mouse ScrollWheel") != 0f)
         {
-            if (keyListener() == 4) //state == change object
+            if (keyListener()[1] == 1) //state change object = true
                 changeObject(actionMode);
         }
 
-       /* String objects = "";
-        foreach (RaycastHit hit in hits)
-            objects += hit.transform.name + "  ";
-        Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray and length of array of them*/
+        /* String objects = "";
+         foreach (RaycastHit hit in hits)
+             objects += hit.transform.name + "  ";
+         Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray and length of array of them*/
 
         switch (actionMode)
         {
@@ -53,11 +55,11 @@ public class Player : MonoBehaviour
                         changeObject(actionMode);
                     Debug.DrawLine(transform.position, hits[0].point, Color.blue);
                     operateObj.SendMessage("prepareToOperate", hits[0]);
-                    
+
                 }
                 else
                     Destroy(operateObj);
-                    
+
                 break;
 
                 /*case 2:
@@ -70,49 +72,69 @@ public class Player : MonoBehaviour
         }
     }
 
-    int keyListener()  //return binary code that has mouse button in 1 digit , changeMode in 2 , PhysPouse in 3
+    byte[] keyListener()  //return byte array with states of input sensors
     {
-        byte a = 0, b = 0, c = 0;
-        if (operateObj != null)
+        byte[] state = new byte[4];
+
+        for (int i = 0; i < state.Length; i++)
+            state[i] = 0;
+        if (!Input.GetKey(KeyCode.KeypadEnter))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (operateObj != null)
             {
-                operateWithObj(0);
-                a = 1;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    operateWithObj(0);
+                    state[0] = 1;
+                }
+                else if (Input.GetMouseButtonDown(1))
+                {
+                    operateWithObj(1);
+                    state[0] = 2;
+                }
             }
-            else if (Input.GetMouseButtonDown(1))
+
+            int tmp = actionMode;
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                actionMode = 1;
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                actionMode = 2;
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                actionMode = 3;
+            state[1] = (byte)(tmp != actionMode ? 1 : 0);
+
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                operateWithObj(1);
-                a = 1;
+                PhysPouse.on = !PhysPouse.on;
+                state[2] = 1;
             }
         }
-
-        int tmp = actionMode;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            actionMode = 1;
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            actionMode = 2;
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            actionMode = 3;
-        b = (byte)(tmp != actionMode? 1 : 0);
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            PhysPouse.on = !PhysPouse.on;
-            c = 1;
+            castle.SendMessage("saveToFile");
+            state[3] = 1;
         }
-        return a * 2 + b * 4 + c * 8;
+        else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            castle.SendMessage("loadFromFile");
+            state[3] = 2;
+        }
+
+        return state;
     }
 
     private void changeObject(int mode)
     {
         if (operateObj != null)
-        Destroy(operateObj);
+            Destroy(operateObj);
         switch (mode)
         {
             case 1:
-                operateObj = Instantiate(block, hits[0].point, Quaternion.identity);
-
+                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Grownd" || hits[0].transform.tag == "Buildable"))
+                {
+                    operateObj = Instantiate(block, hits[0].point, Quaternion.identity);
+                    operateObj.SendMessage("setCastle", castle.GetComponent<Castle>());
+                }
                 break;
 
             case 2:

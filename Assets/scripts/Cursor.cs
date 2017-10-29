@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Cursor : MonoBehaviour
 {
-    public Castle castle; 
+    public Castle castle;
     public Color tRed, tBlue, tGreen;
     public Material cursorMaterial;
     public Vector3 inCastlePos;
 
     private bool onSurface;
+
+    private void setCastle(Castle value)
+    {
+        castle = value;
+    }
 
     // Use this for initialization
     void Start()
@@ -45,7 +50,7 @@ public class Cursor : MonoBehaviour
     {
         if (hit.transform.tag == "Buildable") // if ray collide with cube or other object
         {
-            if (hit.normal.x > 0.999) 
+            if (hit.normal.x > 0.999)
             {
                 inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() + new Vector3(1, 0, 0);
             }
@@ -79,8 +84,7 @@ public class Cursor : MonoBehaviour
         {
             inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
         }
-
-            transform.position = castle.getPosByElement(inCastlePos);
+        transform.position = castle.getPosByElement(inCastlePos);
     }
 
     void operate(int button) // make new cube in cubeCursor, which have new characteristic

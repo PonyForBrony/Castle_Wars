@@ -22,9 +22,18 @@ public class Castle : MonoBehaviour
         return transform.position + element * cellSize + new Vector3(0, cellSize / 2, 0);
     }
 
+    private void saveToFile()
+    {
+        Debug.Log("Castle saved!");
+    }
+
+    private void loadFromFile()
+    {
+        Debug.Log("Castle loaded!");
+    }
+
     private void Update()
     {
-        Debug.Log(blocks.Count);
     }
 
 }
