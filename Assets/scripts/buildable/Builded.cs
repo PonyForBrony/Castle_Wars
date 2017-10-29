@@ -6,21 +6,13 @@ public class Builded : MonoBehaviour
 {
     public Material blockMaterial;
     private Vector3 inCastlePos;
-
-    public void setInCastlePos(Vector3 value)
-    {
-        inCastlePos = value;
-    }
-
-    public Vector3 getInCastlePos()
-    {
-        return inCastlePos;
-    }
+    private string name;
 
 
     // Use this for initialization
     void Start() // set new characteristic for builded cube or other object
     {
+        name = gameObject.name;
         GetComponent<Renderer>().material = blockMaterial;
         gameObject.layer = 0;
         transform.tag = "Buildable";
@@ -31,5 +23,24 @@ public class Builded : MonoBehaviour
     void Update()
     {
     }
+
+
+    /*getters & setters*/
+    public void setInCastlePos(Vector3 value)
+    {
+        inCastlePos = value;
+    }
+
+    public Vector3 getInCastlePos()
+    {
+        return inCastlePos;
+    }
+
+    public string getPrefabName()
+    {
+        return name;
+    }
+
+    /*getters & setters*/
 
 }

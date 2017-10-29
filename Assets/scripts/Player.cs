@@ -39,10 +39,10 @@ public class Player : MonoBehaviour
                 changeObject(actionMode);
         }
 
-        String objects = "";
+       /* String objects = "";
         foreach (RaycastHit hit in hits)
             objects += hit.transform.name + "  ";
-        Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray and length of array of them
+        Debug.Log(objects + "  " + hits.Length); //printing all objects on the Ray and length of array of them*/
 
         switch (actionMode)
         {

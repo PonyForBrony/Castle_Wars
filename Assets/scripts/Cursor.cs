@@ -91,6 +91,7 @@ public class Cursor : MonoBehaviour
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
             tmp.GetComponent<Builded>().setInCastlePos(inCastlePos);
+            castle.blocks.Add(tmp.GetComponent<Builded>());
         }
     }
 }

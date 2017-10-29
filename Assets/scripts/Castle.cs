@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Castle : MonoBehaviour
 {
-    public GameObject[,,] Blocks;
+    public List<Builded> blocks;
     public float cellSize;
-    public int sizeX, sizeY, sizeZ;
 
     public void Start()
     {
-        //Blocks = new GameObject[sizeX,sizeY,sizeZ];
+        blocks = new List<Builded>();
     }
 
     public Vector3 buildOnTheGrowndCoord(Vector3 pos)
@@ -21,6 +20,11 @@ public class Castle : MonoBehaviour
     public Vector3 getPosByElement(Vector3 element)
     {
         return transform.position + element * cellSize + new Vector3(0, cellSize / 2, 0);
+    }
+
+    private void Update()
+    {
+        Debug.Log(blocks.Count);
     }
 
 }
