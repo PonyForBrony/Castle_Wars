@@ -6,14 +6,16 @@ public class Arrow : MonoBehaviour
 {
 
     private bool stucked;
-    public float damage;
+    public float damage,velocity;
 
     private void Start()
     {
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().isKinematic = false;
+
         stucked = false;
-        /*for Test!!*/
-        GetComponent<Rigidbody>().velocity=transform.forward*15;
-        /*for Test!!*/
+        
+        GetComponent<Rigidbody>().velocity=transform.forward*velocity; //fly
     }
 
     // Update is called once per frame
@@ -31,7 +33,7 @@ public class Arrow : MonoBehaviour
         //other.SendMessage("applyDamage",damage); //will be used after we'll write hp-script  
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<MeshCollider>().isTrigger = false;
+        GetComponent<MeshCollider>().isTrigger = false; // if you want to collide with it after shoot
         GetComponent<MeshCollider>().convex = false;
     }
 }
