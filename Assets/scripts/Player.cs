@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
         switch (actionMode)
         {
             case 1:
-                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Grownd" || hits[0].transform.tag == "Buildable"))
+                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Ground" || hits[0].transform.tag == "Buildable"))
                 {
                     if (operateObj == null)
                         changeObject(actionMode);
@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
         switch (mode)
         {
             case 1:
-                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Grownd" || hits[0].transform.tag == "Buildable"))
+                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Ground" || hits[0].transform.tag == "Buildable"))
                 {
                     operateObj = Instantiate(block, hits[0].point, Quaternion.identity);
                     operateObj.SendMessage("setCastle", castle.GetComponent<Castle>());

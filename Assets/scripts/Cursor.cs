@@ -80,7 +80,7 @@ public class Cursor : MonoBehaviour
                 inCastlePos = hit.transform.GetComponent<Builded>().getInCastlePos() - new Vector3(0, 0, 1);
             }
         }
-        else if (hit.transform.tag == "Grownd") // if ray collide with ground
+        else if (hit.transform.tag == "Ground") // if ray collide with ground
         {
             inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
         }

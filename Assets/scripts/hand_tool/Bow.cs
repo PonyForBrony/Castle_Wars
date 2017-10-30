@@ -31,6 +31,7 @@ public class Bow : MonoBehaviour
         if (button == 0 && Time.time-startTime >= rechargeDelay)
         {
             instance.transform.parent = null;
+            instance.transform.tag = "Fallen";
             instance.GetComponent<Arrow>().enabled = true;
             instance = null;
             startTime = Time.time;

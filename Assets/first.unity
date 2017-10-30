@@ -231,8 +231,8 @@ GameObject:
   - component: {fileID: 1417040790}
   - component: {fileID: 1417040789}
   m_Layer: 0
-  m_Name: Grownd
-  m_TagString: Grownd
+  m_Name: Ground
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

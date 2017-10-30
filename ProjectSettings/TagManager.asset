@@ -7,7 +7,8 @@ TagManager:
   - Buildable
   - Cursor
   - Fallen
-  - Grownd
+  - Ground
+  - Hit
   layers:
   - Default
   - TransparentFX

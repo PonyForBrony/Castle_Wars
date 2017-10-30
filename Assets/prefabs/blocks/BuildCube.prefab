@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33844912632604572}
   - component: {fileID: 23002132855262304}
   - component: {fileID: 54502010576125576}
+  - component: {fileID: 114953177683777814}
   - component: {fileID: 114134244322541618}
   - component: {fileID: 114127377862277020}
   - component: {fileID: 114659378482600848}
@@ -137,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d07d1dde55788b46a041122baf36f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castle: {fileID: 114340494076552850, guid: f5be90d586b22fc4bbe49abc29a144cb, type: 2}
+  castle: {fileID: 0}
   tRed: {r: 1, g: 0, b: 0, a: 0.7764706}
   tBlue: {r: 0, g: 0, b: 1, a: 0.775}
   tGreen: {r: 0, g: 1, b: 0, a: 0.775}
@@ -154,3 +155,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61fb064ffbf8df749846b37a725e11f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114953177683777814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457885683396256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cee54afe6b27f44a1175ec128819bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100

@@ -111,7 +111,7 @@ MeshCollider:
   m_Enabled: 0
   serializedVersion: 2
   m_Convex: 1
-  m_InflateMesh: 0
+  m_InflateMesh: 1
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 5b3ec88bdc6361340a2372a7fadbcf7d, type: 3}
 --- !u!114 &114963434832069356
@@ -125,5 +125,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578417739dfa66946ac2daf65e045f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 50
   velocity: 20

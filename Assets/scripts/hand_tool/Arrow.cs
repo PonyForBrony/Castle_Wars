@@ -6,10 +6,12 @@ public class Arrow : MonoBehaviour
 {
 
     private bool stucked;
-    public float damage,velocity;
+    public float damage, velocity;
+    private bool collideInd;
 
     private void Start()
     {
+        collideInd = false;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<MeshCollider>().enabled = true;
@@ -23,20 +25,30 @@ public class Arrow : MonoBehaviour
     void FixedUpdate()
     {
         if (!stucked)
-        {
             GetComponent<Rigidbody>().rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity);
-        }
-        else
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        /*else
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;*/
     }
 
     private void OnTriggerEnter(Collider other)
     {
         stucked = true;
-        //other.SendMessage("applyDamage",damage); //will be used after we'll write hp-script
+        if (other.transform.tag == "Buildable" && !collideInd)
+        {
+            collideInd = true;
+            other.SendMessage("applyDamage", damage); //will be used after we'll write hp-script
+            //Debug.Log(damage);
+        }
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<MeshCollider>().isTrigger = false; // if you want to collide with it after shoot
-        GetComponent<MeshCollider>().convex = false;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //Debug.Log("Exit");
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<MeshCollider>().enabled = true;
     }
 }
