@@ -8,7 +8,6 @@ TagManager:
   - Cursor
   - Fallen
   - Ground
-  - Hit
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,7 @@ public class Builded : MonoBehaviour
     public Material blockMaterial;
     private Vector3 inCastlePos;
     private string name;
-
+    public List<GameObject> colliders;
 
     // Use this for initialization
     void Start() // set new characteristic for builded cube or other object
@@ -40,7 +40,20 @@ public class Builded : MonoBehaviour
     {
         return name;
     }
-
     /*getters & setters*/
 
+    void addToColliders(GameObject obj)
+    {
+        colliders.Add(obj);
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var item in colliders)
+        {
+            // item.SendMessage("onParentDestroy",GetComponent<Collider>());
+            item.GetComponent<Arrow>().OnParentDestroy(GetComponent<Collider>());
+            Debug.Log(item.transform.name);
+        }
+    }
 }
