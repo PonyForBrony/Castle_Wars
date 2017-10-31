@@ -45,7 +45,7 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag != "Fallen" && other.transform.tag != "Untagged" && !stucked)
+        if (other.transform.tag != "Fallen" && other.transform.tag != "Player" && !stucked)
         {
             tmp = timeForStucketArrow;
             color = GetComponent<Renderer>().material.color;
@@ -68,7 +68,7 @@ public class Arrow : MonoBehaviour
 
     public void OnParentDestroy(Collider other)
     {
-        if (other.transform.tag != "Fallen" && other.transform.tag != "Untagged")
+        if (other.transform.tag != "Fallen" && other.transform.tag != "Player")
         {
             tmp = timeForFallingArrow;
             collideNumber--;

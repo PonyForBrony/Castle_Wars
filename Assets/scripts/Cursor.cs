@@ -10,6 +10,7 @@ public class Cursor : MonoBehaviour
     public Vector3 inCastlePos;
 
     private bool onSurface;
+    private bool collided, firstEnter;
 
     private void setCastle(Castle value)
     {
@@ -22,10 +23,14 @@ public class Cursor : MonoBehaviour
         if (castle == null)
             castle = GameObject.Find("CastleHandler").GetComponent<Castle>();
         GetComponent<Renderer>().material = cursorMaterial;
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<BoxCollider>().isTrigger = true;
         transform.tag = "Cursor";
         setColor("blue");
         gameObject.layer = 2; // set for cursorCube material, tag, color and layer
+
+        collided = true;
+        firstEnter = true;
     }
 
     // Update is called once per frame
@@ -84,18 +89,46 @@ public class Cursor : MonoBehaviour
         {
             inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
         }
+        if (firstEnter)
+        {
+            collided = false;
+            firstEnter = false;
+        }
         transform.position = castle.getPosByElement(inCastlePos);
+        if (!collided)
+            setColor("blue");
+        else
+            setColor("red");
     }
 
     void operate(int button) // make new cube in cubeCursor, which have new characteristic
     {
-        if (button == 0)
+        if (button == 0 && !collided)
         {
             GameObject tmp = Instantiate(gameObject, transform.position, transform.rotation);
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
             tmp.GetComponent<Builded>().setInCastlePos(inCastlePos);
+            tmp.GetComponent<BoxCollider>().isTrigger = false;
             castle.blocks.Add(tmp.GetComponent<Builded>());
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Player" && !collided)
+        {
+            collided = true;
+            Debug.Log("TriggerEnter");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "Player" && collided)
+        {
+            collided = false;
+            Debug.Log("TriggerExit");
         }
     }
 }
