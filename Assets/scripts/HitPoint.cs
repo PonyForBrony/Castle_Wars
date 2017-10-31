@@ -21,7 +21,6 @@ public class HitPoint : MonoBehaviour
     {
         if (isDestroyed)
         {
-            //Debug.Log("Death" + transform.localScale.ToString());
             if (transform.localScale.x > 0)
                 transform.localScale = new Vector3(transform.localScale.x - (size0.x / destroyTime) * Time.deltaTime,
                                          transform.localScale.y - (size0.y / destroyTime) * Time.deltaTime,

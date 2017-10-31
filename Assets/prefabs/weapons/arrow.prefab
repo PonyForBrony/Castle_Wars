@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114963434832069356}
   - component: {fileID: 54298327347292202}
   - component: {fileID: 64709905164155958}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arrow
   m_TagString: Fallen
   m_Icon: {fileID: 0}
@@ -127,3 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   velocity: 20
+  timeForFallingArrow: 3
+  timeForStucketArrow: 10
+  destroyTime: 2

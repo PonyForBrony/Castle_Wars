@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
+  colliders: []
 --- !u!114 &114134244322541618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,4 +168,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 100
-  destroyTime: 1
+  destroyTime: 0.25

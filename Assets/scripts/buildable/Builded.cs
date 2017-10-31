@@ -51,9 +51,7 @@ public class Builded : MonoBehaviour
     {
         foreach (var item in colliders)
         {
-            // item.SendMessage("onParentDestroy",GetComponent<Collider>());
             item.GetComponent<Arrow>().OnParentDestroy(GetComponent<Collider>());
-            Debug.Log(item.transform.name);
         }
     }
 }
