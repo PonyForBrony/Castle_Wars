@@ -11,6 +11,7 @@ public class Arrow : MonoBehaviour
 
     public float timeForFallingArrow, timeForStucketArrow, destroyTime;
     private float tmp;
+    private Collider other;
 
     Color color;
 
@@ -33,13 +34,17 @@ public class Arrow : MonoBehaviour
         else
         {
             tmp = tmp - Time.deltaTime;
-            if (color.a > 0.02 && tmp < 0)
+            if (color.a > 0 && tmp < 0)
             {
-                color.a = color.a - color.a * Time.deltaTime / destroyTime;
+                color.a = color.a - Time.deltaTime / destroyTime;
                 GetComponent<Renderer>().material.color = color;
             }
-            else if (color.a < 0.02)
+            else if (color.a <= 0)
+            {
+                if (other != null)
+                    other.SendMessage("deleteFromColliders", gameObject);
                 Destroy(gameObject);
+            }
         }
     }
 
@@ -55,6 +60,7 @@ public class Arrow : MonoBehaviour
             {
                 if (other.transform.tag != "Ground")
                 {
+                    this.other = other;
                     other.SendMessage("applyDamage", damage); //will be used after we'll write hp-script
                     other.SendMessage("addToColliders", gameObject); //add this arrow to block's colliders list
                 }

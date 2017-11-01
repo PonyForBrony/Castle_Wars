@@ -47,6 +47,11 @@ public class Builded : MonoBehaviour
         colliders.Add(obj);
     }
 
+    void deleteFromColliders(GameObject obj)
+    {
+        colliders.Remove(obj);
+    }
+
     private void OnDestroy()
     {
         foreach (var item in colliders)

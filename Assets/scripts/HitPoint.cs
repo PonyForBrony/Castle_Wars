@@ -7,26 +7,29 @@ public class HitPoint : MonoBehaviour
 {
     public float HP, destroyTime;
     private bool isDestroyed;
-    private Vector3 size0;
+    private Vector3 size0, delta;
 
     // Use this for initialization
     void Start()
     {
         isDestroyed = false;
         size0 = transform.localScale;
+        delta = new Vector3();
     }
 
     // Update is called once per frame
     void Update()
     {
+        delta.Set((size0.x / destroyTime) * Time.deltaTime, (size0.y / destroyTime) * Time.deltaTime, (size0.z / destroyTime) * Time.deltaTime);
         if (isDestroyed)
         {
-            if (transform.localScale.x > 0)
-                transform.localScale = new Vector3(transform.localScale.x - (size0.x / destroyTime) * Time.deltaTime,
-                                         transform.localScale.y - (size0.y / destroyTime) * Time.deltaTime,
-                                         transform.localScale.z - (size0.z / destroyTime) * Time.deltaTime);
+            if (transform.localScale.magnitude > delta.magnitude)
+                transform.localScale -= delta;
             else
+            {
+                transform.localScale.Set(0, 0, 0);
                 Destroy(gameObject);
+            }
         }
     }
 

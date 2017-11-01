@@ -128,5 +128,5 @@ MonoBehaviour:
   damage: 50
   velocity: 20
   timeForFallingArrow: 10
-  timeForStucketArrow: 60
+  timeForStucketArrow: 5
   destroyTime: 2
