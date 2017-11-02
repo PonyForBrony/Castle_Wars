@@ -76,54 +76,78 @@ public class Castle : MonoBehaviour
         Builded tmp = findByCastlePos(block.getInCastlePos() + Vector3.up);
         if (block.canBuildOnTop && tmp != null && tmp.canBuildOnBottom && !tmp.isChekedForCloud)
         {
-            checkForBuildClouds(tmp, false, 0);
             if (!firstIteration)
+            {
                 isBranchEnded[branch]++;
+                checkForBuildClouds(tmp, false, branch);
+            }
+            else
+                checkForBuildClouds(tmp, false, 0);
             tmp = null;
         }
 
         tmp = findByCastlePos(block.getInCastlePos() + Vector3.down);
         if (block.canBuildOnBottom && tmp != null && tmp.canBuildOnTop && !tmp.isChekedForCloud)
         {
-            checkForBuildClouds(tmp, false, 1);
             if (!firstIteration)
+            {
                 isBranchEnded[branch]++;
+                checkForBuildClouds(tmp, false, branch);
+            }
+            else
+                checkForBuildClouds(tmp, false, 1);
             tmp = null;
         }
 
         tmp = findByCastlePos(block.getInCastlePos() + Vector3.forward);
         if (block.canBuildOnFront && tmp != null && tmp.canBuildOnBack && !tmp.isChekedForCloud)
         {
-            checkForBuildClouds(tmp, false, 2);
             if (!firstIteration)
+            {
                 isBranchEnded[branch]++;
+                checkForBuildClouds(tmp, false, branch);
+            }
+            else
+                checkForBuildClouds(tmp, false, 2);
             tmp = null;
         }
 
         tmp = findByCastlePos(block.getInCastlePos() + Vector3.back);
         if (block.canBuildOnBack && tmp != null && tmp.canBuildOnFront && !tmp.isChekedForCloud)
         {
-            checkForBuildClouds(tmp, false, 3);
             if (!firstIteration)
+            {
                 isBranchEnded[branch]++;
+                checkForBuildClouds(tmp, false, branch);
+            }
+            else
+                checkForBuildClouds(tmp, false, 3);
             tmp = null;
         }
 
         tmp = findByCastlePos(block.getInCastlePos() + Vector3.left);
         if (block.canBuildOnLeft && tmp != null && tmp.canBuildOnRight && !tmp.isChekedForCloud)
         {
-            checkForBuildClouds(tmp, false, 4);
             if (!firstIteration)
+            {
                 isBranchEnded[branch]++;
+                checkForBuildClouds(tmp, false, branch);
+            }
+            else
+                checkForBuildClouds(tmp, false, 4);
             tmp = null;
         }
 
         tmp = findByCastlePos(block.getInCastlePos() + Vector3.right);
         if (block.canBuildOnRight && tmp != null && tmp.canBuildOnLeft && !tmp.isChekedForCloud)
         {
-            checkForBuildClouds(tmp, false, 5);
             if (!firstIteration)
+            {
                 isBranchEnded[branch]++;
+                checkForBuildClouds(tmp, false, branch);
+            }
+            else
+                checkForBuildClouds(tmp, false, 5);
             tmp = null;
         }
 

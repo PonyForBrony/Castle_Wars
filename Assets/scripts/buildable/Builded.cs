@@ -23,6 +23,8 @@ public class Builded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+     /*   if (isChekedForCloud)
+            GetComponent<Renderer>().material.color = Color.black;*/
     }
 
     void setFallen()
