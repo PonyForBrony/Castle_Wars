@@ -7,6 +7,7 @@ public class Builded : MonoBehaviour
     public Material blockMaterial;
     private Vector3 inCastlePos;
     private string name;
+    public bool canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnLeft, canBuildOnRight,isChekedForCloud;
     public List<GameObject> colliders;
 
     // Use this for initialization
@@ -22,6 +23,13 @@ public class Builded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    void setFallen()
+    {
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().isKinematic = false;
+        transform.tag = "Fallen";  // tag for ignore fallen cube
     }
 
 
@@ -52,11 +60,16 @@ public class Builded : MonoBehaviour
         colliders.Remove(obj);
     }
 
-    private void OnDestroy()
+    private void notAPIOnDestroy()
     {
-        foreach (var item in colliders)
+        if (this.enabled)
         {
-            item.GetComponent<Arrow>().OnParentDestroy(GetComponent<Collider>());
+            foreach (var item in colliders)
+            {
+                item.GetComponent<Arrow>().OnParentDestroy(GetComponent<Collider>());
+            }
+
+            transform.parent.SendMessage("checkForBuildClouds", inCastlePos);
         }
     }
 }

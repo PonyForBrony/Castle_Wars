@@ -106,11 +106,19 @@ public class Cursor : MonoBehaviour
         if (button == 0 && !collided)
         {
             GameObject tmp = Instantiate(gameObject, transform.position, transform.rotation);
+            tmp.name = gameObject.name;
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
             tmp.GetComponent<Builded>().setInCastlePos(inCastlePos);
             tmp.GetComponent<BoxCollider>().isTrigger = false;
-            castle.blocks.Add(tmp.GetComponent<Builded>());
+            castle.castleBlocks.Add(tmp.GetComponent<Builded>());
+
+            /*string blocks = "";
+            foreach (Builded i in castle.castleBlocks)
+                blocks += i.getInCastlePos().ToString() + "   ";
+            Debug.Log(blocks);*/     //check castle list
+
+            tmp.transform.SetParent(castle.transform);
         }
     }
 

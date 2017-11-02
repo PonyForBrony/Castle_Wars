@@ -1,15 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Castle : MonoBehaviour
 {
-    public List<Builded> blocks;
+    public List<Builded> castleBlocks;
     public float cellSize;
 
     public void Start()
     {
-        blocks = new List<Builded>();
+        castleBlocks = new List<Builded>();
     }
 
     public Vector3 buildOnTheGrowndCoord(Vector3 pos)
@@ -34,6 +35,125 @@ public class Castle : MonoBehaviour
 
     private void Update()
     {
+    }
+
+    private List<Builded>[] clouds;
+    private int[] isBranchEnded; // = 0 if ended ; = -1 if on the ground
+
+    void checkForBuildClouds(Vector3 inCastleBlockPos)
+    {
+        checkForBuildClouds(findByCastlePos(inCastleBlockPos), true, 0);
+    }
+
+    void checkForBuildClouds(Builded block, bool firstIteration, int branch)  // recoursive blocks-clouds detecting
+    {
+        if (firstIteration)
+        {
+            isBranchEnded = new int[6];  //block has 6 sides => we have 6 variants of branches
+            clouds = new List<Builded>[6];
+
+            for (int i = 0; i < 6; i++)
+                clouds[i] = new List<Builded>();
+
+                for (int i = 0; i < 6; i++)
+                isBranchEnded[i] = 0;
+
+            foreach (Builded item in castleBlocks)
+                item.isChekedForCloud = false;
+        }
+        else
+        {
+            if (isBranchEnded[branch] < 0)
+                return;
+
+            block.isChekedForCloud = true;
+
+            clouds[branch].Add(block);
+            if (block.getInCastlePos().y == 0)
+                isBranchEnded[branch] = -1;
+        }
+
+        Builded tmp = findByCastlePos(block.getInCastlePos() + Vector3.up);
+        if (block.canBuildOnTop && tmp != null && tmp.canBuildOnBottom && !tmp.isChekedForCloud)
+        {
+            checkForBuildClouds(tmp, false, 0);
+            if (!firstIteration)
+                isBranchEnded[branch]++;
+            tmp = null;
+        }
+
+        tmp = findByCastlePos(block.getInCastlePos() + Vector3.down);
+        if (block.canBuildOnBottom && tmp != null && tmp.canBuildOnTop && !tmp.isChekedForCloud)
+        {
+            checkForBuildClouds(tmp, false, 1);
+            if (!firstIteration)
+                isBranchEnded[branch]++;
+            tmp = null;
+        }
+
+        tmp = findByCastlePos(block.getInCastlePos() + Vector3.forward);
+        if (block.canBuildOnFront && tmp != null && tmp.canBuildOnBack && !tmp.isChekedForCloud)
+        {
+            checkForBuildClouds(tmp, false, 2);
+            if (!firstIteration)
+                isBranchEnded[branch]++;
+            tmp = null;
+        }
+
+        tmp = findByCastlePos(block.getInCastlePos() + Vector3.back);
+        if (block.canBuildOnBack && tmp != null && tmp.canBuildOnFront && !tmp.isChekedForCloud)
+        {
+            checkForBuildClouds(tmp, false, 3);
+            if (!firstIteration)
+                isBranchEnded[branch]++;
+            tmp = null;
+        }
+
+        tmp = findByCastlePos(block.getInCastlePos() + Vector3.left);
+        if (block.canBuildOnLeft && tmp != null && tmp.canBuildOnRight && !tmp.isChekedForCloud)
+        {
+            checkForBuildClouds(tmp, false, 4);
+            if (!firstIteration)
+                isBranchEnded[branch]++;
+            tmp = null;
+        }
+
+        tmp = findByCastlePos(block.getInCastlePos() + Vector3.right);
+        if (block.canBuildOnRight && tmp != null && tmp.canBuildOnLeft && !tmp.isChekedForCloud)
+        {
+            checkForBuildClouds(tmp, false, 5);
+            if (!firstIteration)
+                isBranchEnded[branch]++;
+            tmp = null;
+        }
+
+        if (!firstIteration)
+        {
+            isBranchEnded[branch]--;
+            if (isBranchEnded[branch] == 0)
+                letThisCloudDown(clouds[branch]);
+        }
+    }
+
+    private void letThisCloudDown(List<Builded> cloud)
+    {
+        foreach (Builded block in cloud)
+        {
+            block.SendMessage("setFallen");
+            castleBlocks.Remove(block);
+        }
+    }
+
+    Builded findByCastlePos(Vector3 inCastlePos)
+    {
+        foreach (Builded block in castleBlocks)
+        {
+            if ((block.getInCastlePos() - inCastlePos).magnitude < 0.01)
+            {
+                return block;
+            }
+        }
+        return null;
     }
 
 }

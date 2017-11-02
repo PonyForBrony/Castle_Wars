@@ -127,6 +127,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
+  canBuildOnTop: 1
+  canBuildOnBottom: 1
+  canBuildOnFront: 1
+  canBuildOnBack: 1
+  canBuildOnLeft: 1
+  canBuildOnRight: 1
   colliders: []
 --- !u!114 &114134244322541618
 MonoBehaviour:

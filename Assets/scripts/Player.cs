@@ -133,12 +133,14 @@ public class Player : MonoBehaviour
                 if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Ground" || hits[0].transform.tag == "Buildable"))
                 {
                     operateObj = Instantiate(block, hits[0].point, Quaternion.identity);
+                    operateObj.name = block.name;
                     operateObj.SendMessage("setCastle", castle.GetComponent<Castle>());
                 }
                 break;
 
             case 2:
                 operateObj = Instantiate(handTool, transform);
+                operateObj.name = handTool.name;
                 operateObj.transform.localPosition = handTool.transform.position;
                 operateObj.transform.localRotation = handTool.transform.rotation;
                 break;
