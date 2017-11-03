@@ -127,7 +127,7 @@ public class Cursor : MonoBehaviour
         if (other.transform.tag == "Player" && !collided)
         {
             collided = true;
-            Debug.Log("TriggerEnter");
+            //Debug.Log("TriggerEnter");
         }
     }
 
@@ -136,7 +136,7 @@ public class Cursor : MonoBehaviour
         if (other.transform.tag == "Player" && collided)
         {
             collided = false;
-            Debug.Log("TriggerExit");
+            //Debug.Log("TriggerExit");
         }
     }
 }

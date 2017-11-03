@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 114953177683777814}
   - component: {fileID: 114134244322541618}
   - component: {fileID: 114127377862277020}
-  - component: {fileID: 114659378482600848}
   - component: {fileID: 65817009760292620}
   m_Layer: 0
   m_Name: BuildCube
@@ -131,8 +130,9 @@ MonoBehaviour:
   canBuildOnBottom: 1
   canBuildOnFront: 1
   canBuildOnBack: 1
-  canBuildOnLeft: 1
   canBuildOnRight: 1
+  canBuildOnLeft: 1
+  canBuildOn: 
   colliders: []
 --- !u!114 &114134244322541618
 MonoBehaviour:
@@ -151,17 +151,6 @@ MonoBehaviour:
   tGreen: {r: 0, g: 1, b: 0, a: 0.775}
   cursorMaterial: {fileID: 2100000, guid: 9ca5a06fced8b4a4fa6fdc0620ba5d1c, type: 2}
   inCastlePos: {x: 0, y: 0, z: 0}
---- !u!114 &114659378482600848
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1457885683396256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61fb064ffbf8df749846b37a725e11f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114953177683777814
 MonoBehaviour:
   m_ObjectHideFlags: 1

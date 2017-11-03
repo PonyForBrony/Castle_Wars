@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 
     byte[] keyListener()  //return byte array with states of input sensors
     {
-        byte[] state = new byte[4];
+        byte[] state = new byte[3];
 
         for (int i = 0; i < state.Length; i++)
             state[i] = 0;
@@ -103,21 +103,16 @@ public class Player : MonoBehaviour
                 actionMode = 3;
             state[1] = (byte)(tmp != actionMode ? 1 : 0);
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                PhysPouse.on = !PhysPouse.on;
-                state[2] = 1;
-            }
         }
         else if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             castle.SendMessage("saveToFile");
-            state[3] = 1;
+            state[2] = 1;
         }
         else if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             castle.SendMessage("loadFromFile");
-            state[3] = 2;
+            state[2] = 2;
         }
 
         return state;
