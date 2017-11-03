@@ -89,11 +89,13 @@ public class Cursor : MonoBehaviour
         {
             inCastlePos = castle.buildOnTheGrowndCoord(hit.point);
         }
+
         if (firstEnter)
         {
             collided = false;
             firstEnter = false;
         }
+
         transform.position = castle.getPosByElement(inCastlePos);
         if (!collided)
             setColor("blue");
