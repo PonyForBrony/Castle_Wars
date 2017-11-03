@@ -37,126 +37,51 @@ public class Castle : MonoBehaviour
     {
     }
 
-    private List<Builded>[] clouds;
-    private int[] isBranchEnded; // = 0 if ended ; = -1 if on the ground
-
-    void checkForBuildClouds(Vector3 inCastleBlockPos)
+    void checkForBuildClouds(Builded block)
     {
-        checkForBuildClouds(findByCastlePos(inCastleBlockPos), true, 0);
+        Vector3[] directions = new Vector3[] { Vector3.up, Vector3.down, Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
+        List<Builded> cloud; //saving 6 clouds around destroyed cube to this iterated
+        Builded tmp;
+
+        castleBlocks.Remove(block);  //removing destroed block
+
+        for (int i = 0; i < 6; i++)
+        {
+            tmp = findByCastlePos(block.getInCastlePos() + directions[i]);
+            if (block.canBuildOn[i] && tmp != null && tmp.canBuildOn[block.getOppositeSide(i)])  //check tmp is exist and this block and tmp are coupling
+            {
+                cloud = new List<Builded>();
+                if (!isBranchOnTheGrownd(findByCastlePos(block.getInCastlePos() + directions[i]), cloud, directions))
+                    letThisCloudDown(cloud);
+            }
+        }
+
+
     }
 
-    void checkForBuildClouds(Builded block, bool firstIteration, int branch)  // recoursive blocks-clouds detecting
+    bool isBranchOnTheGrownd(Builded block, List<Builded> branch, Vector3[] directions)  // recoursive blocks-clouds detecting
     {
-        if (firstIteration)
-        {
-            isBranchEnded = new int[6];  //block has 6 sides => we have 6 variants of branches
-            clouds = new List<Builded>[6];
+        bool isOnTheGrownd = false;
+        Builded tmp;
 
-            for (int i = 0; i < 6; i++)
-                clouds[i] = new List<Builded>();
+        //block.GetComponent<Renderer>().material.color = Color.black; //function was-here visualization
+        branch.Add(block);
 
-                for (int i = 0; i < 6; i++)
-                isBranchEnded[i] = 0;
-
-            foreach (Builded item in castleBlocks)
-                item.isChekedForCloud = false;
-        }
+        if (block.getInCastlePos().y == 0)
+            return true;  //this block is on the ground 
         else
-        {
-            if (isBranchEnded[branch] < 0)
-                return;
-
-            block.isChekedForCloud = true;
-
-            clouds[branch].Add(block);
-            if (block.getInCastlePos().y == 0)
-                isBranchEnded[branch] = -1;
-        }
-
-        Builded tmp = findByCastlePos(block.getInCastlePos() + Vector3.up);
-        if (block.canBuildOnTop && tmp != null && tmp.canBuildOnBottom && !tmp.isChekedForCloud)
-        {
-            if (!firstIteration)
+            for (int i = 0; i < 6; i++)
             {
-                isBranchEnded[branch]++;
-                checkForBuildClouds(tmp, false, branch);
+                tmp = findByCastlePos(block.getInCastlePos() + directions[i]);
+                if (block.canBuildOn[i] && tmp != null && tmp.canBuildOn[block.getOppositeSide(i)] && findByCastlePos(tmp.getInCastlePos(), branch) == null)  //check tmp is exist, this block and tmp are coupling, and tmp was not checked yet
+                {
+                    isOnTheGrownd = (isBranchOnTheGrownd(tmp, branch, directions) || isOnTheGrownd); //block is on the ground if one of his branches toching the ground
+                    tmp = null;
+                }
             }
-            else
-                checkForBuildClouds(tmp, false, 0);
-            tmp = null;
-        }
 
-        tmp = findByCastlePos(block.getInCastlePos() + Vector3.down);
-        if (block.canBuildOnBottom && tmp != null && tmp.canBuildOnTop && !tmp.isChekedForCloud)
-        {
-            if (!firstIteration)
-            {
-                isBranchEnded[branch]++;
-                checkForBuildClouds(tmp, false, branch);
-            }
-            else
-                checkForBuildClouds(tmp, false, 1);
-            tmp = null;
-        }
 
-        tmp = findByCastlePos(block.getInCastlePos() + Vector3.forward);
-        if (block.canBuildOnFront && tmp != null && tmp.canBuildOnBack && !tmp.isChekedForCloud)
-        {
-            if (!firstIteration)
-            {
-                isBranchEnded[branch]++;
-                checkForBuildClouds(tmp, false, branch);
-            }
-            else
-                checkForBuildClouds(tmp, false, 2);
-            tmp = null;
-        }
-
-        tmp = findByCastlePos(block.getInCastlePos() + Vector3.back);
-        if (block.canBuildOnBack && tmp != null && tmp.canBuildOnFront && !tmp.isChekedForCloud)
-        {
-            if (!firstIteration)
-            {
-                isBranchEnded[branch]++;
-                checkForBuildClouds(tmp, false, branch);
-            }
-            else
-                checkForBuildClouds(tmp, false, 3);
-            tmp = null;
-        }
-
-        tmp = findByCastlePos(block.getInCastlePos() + Vector3.left);
-        if (block.canBuildOnLeft && tmp != null && tmp.canBuildOnRight && !tmp.isChekedForCloud)
-        {
-            if (!firstIteration)
-            {
-                isBranchEnded[branch]++;
-                checkForBuildClouds(tmp, false, branch);
-            }
-            else
-                checkForBuildClouds(tmp, false, 4);
-            tmp = null;
-        }
-
-        tmp = findByCastlePos(block.getInCastlePos() + Vector3.right);
-        if (block.canBuildOnRight && tmp != null && tmp.canBuildOnLeft && !tmp.isChekedForCloud)
-        {
-            if (!firstIteration)
-            {
-                isBranchEnded[branch]++;
-                checkForBuildClouds(tmp, false, branch);
-            }
-            else
-                checkForBuildClouds(tmp, false, 5);
-            tmp = null;
-        }
-
-        if (!firstIteration)
-        {
-            isBranchEnded[branch]--;
-            if (isBranchEnded[branch] == 0)
-                letThisCloudDown(clouds[branch]);
-        }
+        return isOnTheGrownd;
     }
 
     private void letThisCloudDown(List<Builded> cloud)
@@ -171,6 +96,18 @@ public class Castle : MonoBehaviour
     Builded findByCastlePos(Vector3 inCastlePos)
     {
         foreach (Builded block in castleBlocks)
+        {
+            if ((block.getInCastlePos() - inCastlePos).magnitude < 0.01)
+            {
+                return block;
+            }
+        }
+        return null;
+    }
+
+    Builded findByCastlePos(Vector3 inCastlePos, List<Builded> list)
+    {
+        foreach (Builded block in list)
         {
             if ((block.getInCastlePos() - inCastlePos).magnitude < 0.01)
             {

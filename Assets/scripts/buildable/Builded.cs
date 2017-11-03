@@ -7,12 +7,17 @@ public class Builded : MonoBehaviour
     public Material blockMaterial;
     private Vector3 inCastlePos;
     private string name;
-    public bool canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnLeft, canBuildOnRight,isChekedForCloud;
+
+    public bool canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft;
+    public bool[] canBuildOn;
+
     public List<GameObject> colliders;
 
     // Use this for initialization
     void Start() // set new characteristic for builded cube or other object
     {
+        canBuildOn = new bool[] { canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft };
+
         name = gameObject.name;
         GetComponent<Renderer>().material = blockMaterial;
         gameObject.layer = 0;
@@ -23,8 +28,6 @@ public class Builded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     /*   if (isChekedForCloud)
-            GetComponent<Renderer>().material.color = Color.black;*/
     }
 
     void setFallen()
@@ -32,6 +35,7 @@ public class Builded : MonoBehaviour
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().isKinematic = false;
         transform.tag = "Fallen";  // tag for ignore fallen cube
+        //Destroy(gameObject);
     }
 
 
@@ -71,7 +75,15 @@ public class Builded : MonoBehaviour
                 item.GetComponent<Arrow>().OnParentDestroy(GetComponent<Collider>());
             }
 
-            transform.parent.SendMessage("checkForBuildClouds", inCastlePos);
+            transform.parent.SendMessage("checkForBuildClouds", this);
         }
+    }
+
+    public int getOppositeSide(int side)
+    {
+        if (side % 2 == 0)
+            return side + 1;
+        else
+            return side - 1;
     }
 }
