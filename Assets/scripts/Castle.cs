@@ -8,9 +8,28 @@ public class Castle : MonoBehaviour
     public List<Builded> castleBlocks;
     public float cellSize;
 
+    void Awake()
+    {
+        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+            createChildrenHandler(obj);
+    }
+
     public void Start()
     {
         castleBlocks = new List<Builded>();
+    }
+
+    public void createChildrenHandler(GameObject obj)
+    {
+        //Debug.Log(obj.transform.localScale.ToString() + "   " + obj.name + "   " + obj.transform.tag);
+        if ((obj.transform.tag == "Ground" || obj.transform.tag == "Buildable") && obj.transform.localScale != new Vector3(1, 1, 1))
+        {
+            //Debug.Log(obj.name);
+            GameObject childrenHandler = new GameObject();
+            childrenHandler.name = "ChildrenHandler";
+            childrenHandler.transform.position = obj.transform.position;
+            childrenHandler.transform.SetParent(obj.transform);
+        }
     }
 
     public Vector3 buildOnTheGrowndCoord(Vector3 pos)
@@ -55,8 +74,6 @@ public class Castle : MonoBehaviour
                     letThisCloudDown(cloud);
             }
         }
-
-
     }
 
     bool isBranchOnTheGrownd(Builded block, List<Builded> branch, Vector3[] directions)  // recoursive blocks-clouds detecting
@@ -79,8 +96,6 @@ public class Castle : MonoBehaviour
                     tmp = null;
                 }
             }
-
-
         return isOnTheGrownd;
     }
 

@@ -113,6 +113,8 @@ public class Cursor : MonoBehaviour
             tmp.GetComponent<Builded>().enabled = true;
             tmp.GetComponent<Builded>().setInCastlePos(inCastlePos);
             tmp.GetComponent<BoxCollider>().isTrigger = false;
+            tmp.transform.tag = "Buildable";
+            castle.createChildrenHandler(tmp);
             castle.castleBlocks.Add(tmp.GetComponent<Builded>());
 
             /*string blocks = "";

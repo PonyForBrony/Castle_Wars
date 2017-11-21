@@ -127,6 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   velocity: 20
-  timeForFallingArrow: 60
-  timeForStucketArrow: 60
-  destroyTime: 60
+  timeForFallingArrow: 30
+  timeForStucketArrow: 30
+  destroyTime: 30
