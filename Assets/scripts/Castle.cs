@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Castle : MonoBehaviour
 {
     public List<Builded> castleBlocks;
     public float cellSize;
+    private string filePath;
 
     void Awake()
     {
@@ -16,6 +18,7 @@ public class Castle : MonoBehaviour
 
     public void Start()
     {
+        filePath = Application.streamingAssetsPath + "/castle.json";
         castleBlocks = new List<Builded>();
     }
 
@@ -44,12 +47,54 @@ public class Castle : MonoBehaviour
 
     private void saveToFile()
     {
+        List<WritebleView> writebleCastle = new List<WritebleView>();
+        foreach (Builded block in castleBlocks)
+        {
+            writebleCastle.Add(block.getWritebleView());
+        }
+
+        WritebleContainer container = new WritebleContainer(writebleCastle);
+
+        string toJson = JsonUtility.ToJson(container, true);
+
+        Debug.Log(toJson);
+
+        File.WriteAllText(filePath, toJson);
+
         Debug.Log("Castle saved!");
     }
 
     private void loadFromFile()
     {
-        Debug.Log("Castle loaded!");
+        if (File.Exists(filePath))
+        {
+            castleBlocks = new List<Builded>();
+
+            WritebleContainer container = JsonUtility.FromJson<WritebleContainer>(File.ReadAllText(filePath));
+            GameObject tmp;
+            foreach (WritebleView view in container.writebleCastle)
+            {
+                Debug.Log("prefabs/blocks/" + view.name);
+                tmp = Instantiate(findBlockByName(view.name),getPosByElement(view.inCastlePos),Quaternion.identity);
+                tmp.GetComponent<Cursor>().enabled = false;
+                tmp.GetComponent<Builded>().enabled = true;
+                tmp.GetComponent<Builded>().setInCastlePos(view.inCastlePos);
+                tmp.GetComponent<BoxCollider>().isTrigger = false;
+                tmp.transform.tag = "Buildable";
+                createChildrenHandler(tmp);
+                castleBlocks.Add(tmp.GetComponent<Builded>());
+                tmp.transform.SetParent(transform);
+            }
+
+            Debug.Log("Castle loaded!");
+        }
+        else
+            Debug.LogAssertion("File does not exist!");
+    }
+
+    private GameObject findBlockByName(string name)
+    {
+        return (GameObject)Resources.Load("prefabs/blocks/"+name, typeof(GameObject));
     }
 
     private void Update()
@@ -132,4 +177,14 @@ public class Castle : MonoBehaviour
         return null;
     }
 
+}
+
+public struct WritebleContainer
+{
+    public List<WritebleView> writebleCastle;
+
+    public WritebleContainer(List<WritebleView> list)
+    {
+        writebleCastle = list;
+    }
 }

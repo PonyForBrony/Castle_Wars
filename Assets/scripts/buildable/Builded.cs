@@ -1,24 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Builded : MonoBehaviour
 {
+
     public Material blockMaterial;
     private Vector3 inCastlePos;
-    private string name;
 
     public bool canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft;
     public bool[] canBuildOn;
 
     public List<GameObject> colliders;
+ 
 
     // Use this for initialization
-    void Start() // set new characteristic for builded cube or other object
+    public void Start() // set new characteristic for builded cube or other object
     {
+
         canBuildOn = new bool[] { canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft };
 
-        name = gameObject.name;
         GetComponent<Renderer>().material = blockMaterial;
         gameObject.layer = 0;
         transform.tag = "Buildable";
@@ -48,11 +50,6 @@ public class Builded : MonoBehaviour
     public Vector3 getInCastlePos()
     {
         return inCastlePos;
-    }
-
-    public string getPrefabName()
-    {
-        return name;
     }
     /*getters & setters*/
 
@@ -85,5 +82,23 @@ public class Builded : MonoBehaviour
             return side + 1;
         else
             return side - 1;
+    }
+
+    public WritebleView getWritebleView()
+    {
+        return new WritebleView(name,inCastlePos);
+    }
+}
+
+[Serializable]
+public struct WritebleView
+{
+    public string name;
+    public Vector3 inCastlePos;
+
+    public WritebleView(string name, Vector3 inCastlePos)
+    {
+        this.name = name;
+        this.inCastlePos = inCastlePos;
     }
 }
