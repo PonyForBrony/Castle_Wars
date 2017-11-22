@@ -23,8 +23,9 @@ public class Cursor : MonoBehaviour
         if (castle == null)
             castle = GameObject.Find("CastleHandler").GetComponent<Castle>();
         GetComponent<Renderer>().material = cursorMaterial;
-        GetComponent<BoxCollider>().enabled = true;
-        GetComponent<BoxCollider>().isTrigger = true;
+        GetComponent<MeshCollider>().enabled = true;
+        GetComponent<MeshCollider>().convex = true;
+        GetComponent<MeshCollider>().isTrigger = true;
         transform.tag = "Cursor";
         setColor("blue");
         gameObject.layer = 2; // set for cursorCube material, tag, color and layer
@@ -112,7 +113,6 @@ public class Cursor : MonoBehaviour
             tmp.GetComponent<Cursor>().enabled = false;
             tmp.GetComponent<Builded>().enabled = true;
             tmp.GetComponent<Builded>().setInCastlePos(inCastlePos);
-            tmp.GetComponent<BoxCollider>().isTrigger = false;
             tmp.transform.tag = "Buildable";
             castle.createChildrenHandler(tmp);
             castle.castleBlocks.Add(tmp.GetComponent<Builded>());

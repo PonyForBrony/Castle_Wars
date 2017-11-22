@@ -13,19 +13,22 @@ public class Player : MonoBehaviour
     private Ray rayToLand;  //ray from camera to operate whith objects
     private RaycastHit[] hits;
 
-    public GameObject handTool, block;
+    public GameObject[] handTool, block;
     private GameObject operateObj;    //current player choice
 
-    private int actionMode;    //1->build , 2->operate with handed , 3->operate with landed
+    public int actionMode, toolSelector;    //am = 1->build , am = 2->operate with handed , am = 3->operate with landed
 
 
     // Use this for initialization
     void Start()
     {
+        handTool = Resources.LoadAll<GameObject>("prefabs/weapons");
+        block = Resources.LoadAll<GameObject>("prefabs/blocks");
         if (castle == null)
             castle = GameObject.Find("CastleHandler");
         rayToLand = new Ray();
         actionMode = 3;
+        toolSelector = 0;
     }
 
     // Update is called once per frame
@@ -38,7 +41,7 @@ public class Player : MonoBehaviour
         if (Input.anyKey || Input.GetAxis("Mouse ScrollWheel") != 0f)
         {
             if (keyListener()[1] == 1) //state change object = true
-                changeObject(actionMode);
+                changeObject(actionMode, toolSelector);
         }
 
         /* String objects = "";
@@ -49,10 +52,10 @@ public class Player : MonoBehaviour
         switch (actionMode)
         {
             case 1:
-                if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Ground" || hits[0].transform.tag == "Buildable"))
+                if (hits.Length > 0 && (Math.Abs(hits[0].normal.x) == 1 || Math.Abs(hits[0].normal.y) == 1 || Math.Abs(hits[0].normal.z) == 1) && /*not very nice*/(hits[0].transform.tag == "Ground" || hits[0].transform.tag == "Buildable"))
                 {
                     if (operateObj == null)
-                        changeObject(actionMode);
+                        changeObject(actionMode, toolSelector);
                     Debug.DrawLine(transform.position, hits[0].point, Color.blue);
                     operateObj.SendMessage("prepareToOperate", hits[0]);
 
@@ -94,14 +97,19 @@ public class Player : MonoBehaviour
                 }
             }
 
-            int tmp = actionMode;
+            int tmpMode = actionMode, tmpSelect = toolSelector;
             if (Input.GetKeyDown(KeyCode.Alpha1))
                 actionMode = 1;
             else if (Input.GetKeyDown(KeyCode.Alpha2))
                 actionMode = 2;
             else if (Input.GetKeyDown(KeyCode.Alpha3))
                 actionMode = 3;
-            state[1] = (byte)(tmp != actionMode ? 1 : 0);
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                toolSelector++;
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                toolSelector--;
+            state[1] = (byte)((tmpMode != actionMode || tmpSelect != toolSelector) ? 1 : 0);
 
         }
         else if (Input.GetKeyDown(KeyCode.KeypadPlus))
@@ -118,7 +126,7 @@ public class Player : MonoBehaviour
         return state;
     }
 
-    private void changeObject(int mode)
+    private void changeObject(int mode, int select)
     {
         if (operateObj != null)
             Destroy(operateObj);
@@ -127,17 +135,18 @@ public class Player : MonoBehaviour
             case 1:
                 if (hits.Length > 0 && /*not very nice*/(hits[0].transform.tag == "Ground" || hits[0].transform.tag == "Buildable"))
                 {
-                    operateObj = Instantiate(block, hits[0].point, Quaternion.identity);
-                    operateObj.name = block.name;
+                    select = Math.Abs(select % block.Length);
+                    operateObj = Instantiate(block[select], hits[0].point, Quaternion.identity);
+                    operateObj.name = block[select].name;
                     operateObj.SendMessage("setCastle", castle.GetComponent<Castle>());
                 }
                 break;
 
             case 2:
-                operateObj = Instantiate(handTool, transform);
-                operateObj.name = handTool.name;
-                operateObj.transform.localPosition = handTool.transform.position;
-                operateObj.transform.localRotation = handTool.transform.rotation;
+                select = Math.Abs(select % handTool.Length);
+                operateObj = Instantiate(handTool[select], transform);
+                operateObj.name = handTool[select].name;
+                operateObj.transform.localPosition = handTool[select].transform.position;
                 break;
 
             case 3:

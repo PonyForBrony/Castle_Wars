@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114953177683777814}
   - component: {fileID: 114134244322541618}
   - component: {fileID: 114127377862277020}
-  - component: {fileID: 65817009760292620}
+  - component: {fileID: 64795767806720764}
   m_Layer: 0
   m_Name: BuildCube
   m_TagString: Buildable
@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1457885683396256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.637131, y: 0, z: -8.7227955}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,8 +102,8 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &65817009760292620
-BoxCollider:
+--- !u!64 &64795767806720764
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -112,8 +112,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &114127377862277020
 MonoBehaviour:
   m_ObjectHideFlags: 1

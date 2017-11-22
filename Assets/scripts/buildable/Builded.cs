@@ -24,7 +24,9 @@ public class Builded : MonoBehaviour
         GetComponent<Renderer>().material = blockMaterial;
         gameObject.layer = 0;
         transform.tag = "Buildable";
-        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<MeshCollider>().enabled = true;
+        GetComponent<MeshCollider>().isTrigger = false;
+        GetComponent<MeshCollider>().convex = false;
     }
 
     // Update is called once per frame

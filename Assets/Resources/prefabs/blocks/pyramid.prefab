@@ -21,9 +21,11 @@ GameObject:
   - component: {fileID: 4083063784197476}
   - component: {fileID: 33888499999387142}
   - component: {fileID: 23835441230969316}
-  - component: {fileID: 114571400398518650}
-  - component: {fileID: 64122851538858036}
   - component: {fileID: 54383696989346610}
+  - component: {fileID: 114571400398518650}
+  - component: {fileID: 114674714511110002}
+  - component: {fileID: 114806728326142760}
+  - component: {fileID: 64122851538858036}
   m_Layer: 0
   m_Name: pyramid
   m_TagString: Untagged
@@ -37,13 +39,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1941993770411460}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -4.664253, y: 0.5, z: -7.1205215}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!23 &23835441230969316
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -97,8 +99,8 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!64 &64122851538858036
 MeshCollider:
@@ -110,7 +112,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 1
+  m_Convex: 0
   m_InflateMesh: 1
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: fa1c18c6878fe754286d8b9f00be7e5b, type: 3}
@@ -127,3 +129,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 70
   destroyTime: 0.25
+--- !u!114 &114674714511110002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941993770411460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d07d1dde55788b46a041122baf36f2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castle: {fileID: 0}
+  tRed: {r: 1, g: 0, b: 0, a: 0.7764706}
+  tBlue: {r: 0, g: 0, b: 1, a: 0.775}
+  tGreen: {r: 0, g: 1, b: 0, a: 0.775}
+  cursorMaterial: {fileID: 2100000, guid: 9ca5a06fced8b4a4fa6fdc0620ba5d1c, type: 2}
+  inCastlePos: {x: 0, y: 0, z: 0}
+--- !u!114 &114806728326142760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941993770411460}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6698b2cf601b02e48be53bca4ffbac4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
+  canBuildOnTop: 1
+  canBuildOnBottom: 1
+  canBuildOnFront: 1
+  canBuildOnBack: 1
+  canBuildOnRight: 1
+  canBuildOnLeft: 1
+  canBuildOn: 
+  colliders: []

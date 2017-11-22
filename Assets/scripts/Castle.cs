@@ -68,7 +68,12 @@ public class Castle : MonoBehaviour
     {
         if (File.Exists(filePath))
         {
-            castleBlocks = new List<Builded>();
+            foreach (Builded block in castleBlocks)
+            {
+                block.SendMessage("notAPIOnDestroy");
+                Destroy(block.gameObject);
+            }
+                castleBlocks = new List<Builded>();
 
             WritebleContainer container = JsonUtility.FromJson<WritebleContainer>(File.ReadAllText(filePath));
             GameObject tmp;
@@ -76,10 +81,10 @@ public class Castle : MonoBehaviour
             {
                 Debug.Log("prefabs/blocks/" + view.name);
                 tmp = Instantiate(findBlockByName(view.name),getPosByElement(view.inCastlePos),Quaternion.identity);
+                tmp.name = view.name;
                 tmp.GetComponent<Cursor>().enabled = false;
                 tmp.GetComponent<Builded>().enabled = true;
                 tmp.GetComponent<Builded>().setInCastlePos(view.inCastlePos);
-                tmp.GetComponent<BoxCollider>().isTrigger = false;
                 tmp.transform.tag = "Buildable";
                 createChildrenHandler(tmp);
                 castleBlocks.Add(tmp.GetComponent<Builded>());
