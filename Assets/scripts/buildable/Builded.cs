@@ -26,7 +26,6 @@ public class Builded : MonoBehaviour
         transform.tag = "Buildable";
         GetComponent<MeshCollider>().enabled = true;
         GetComponent<MeshCollider>().isTrigger = false;
-        GetComponent<MeshCollider>().convex = false;
     }
 
     // Update is called once per frame

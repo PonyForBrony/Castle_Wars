@@ -112,7 +112,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
+  m_Convex: 1
   m_InflateMesh: 1
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: fa1c18c6878fe754286d8b9f00be7e5b, type: 3}
@@ -158,11 +158,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockMaterial: {fileID: 2100000, guid: 637f5636b1e028547a6d6a47fc9933ee, type: 2}
-  canBuildOnTop: 1
+  canBuildOnTop: 0
   canBuildOnBottom: 1
-  canBuildOnFront: 1
-  canBuildOnBack: 1
-  canBuildOnRight: 1
-  canBuildOnLeft: 1
+  canBuildOnFront: 0
+  canBuildOnBack: 0
+  canBuildOnRight: 0
+  canBuildOnLeft: 0
   canBuildOn: 
   colliders: []

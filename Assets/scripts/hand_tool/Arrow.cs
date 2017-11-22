@@ -78,13 +78,14 @@ public class Arrow : MonoBehaviour
 
     public void OnParentDestroy(Collider other)
     {
-        if (other.transform.tag != "Fallen" && other.transform.tag != "Player")
+        /*if (other.transform.tag != "Fallen" && other.transform.tag != "Player")
         {
             transform.parent = null;
             tmp = timeForFallingArrow;
             GetComponent<MeshCollider>().isTrigger = false;
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             GetComponent<Rigidbody>().isKinematic = false;
-        }
+        }*/
+        Destroy(this);
     }
 }
