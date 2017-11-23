@@ -72,7 +72,7 @@ public class Builded : MonoBehaviour
         colliders.Remove(obj);
     }
 
-    private void notAPIOnDestroy()
+    private void notAPIOnDestroy(bool checkForClouds)
     {
         if (this.enabled)
         {
@@ -81,7 +81,8 @@ public class Builded : MonoBehaviour
                 item.GetComponent<Arrow>().OnParentDestroy(GetComponent<Collider>());
             }
 
-            transform.parent.SendMessage("checkForBuildClouds", this);
+            if (checkForClouds)
+                transform.parent.SendMessage("checkForBuildClouds", this);
         }
     }
 

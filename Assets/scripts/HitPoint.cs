@@ -30,7 +30,7 @@ public class HitPoint : MonoBehaviour
                 else
                 {
                     transform.localScale.Set(0, 0, 0);
-                    SendMessage("notAPIOnDestroy");
+                    SendMessage("notAPIOnDestroy", true);
                     Destroy(gameObject);
                 }
             }

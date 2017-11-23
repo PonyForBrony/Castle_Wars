@@ -70,17 +70,18 @@ public class Castle : MonoBehaviour
         {
             foreach (Builded block in castleBlocks)
             {
-                block.SendMessage("notAPIOnDestroy");
+                block.SendMessage("notAPIOnDestroy", false);
                 Destroy(block.gameObject);
             }
-                castleBlocks = new List<Builded>();
+            castleBlocks = new List<Builded>();
 
             WritebleContainer container = JsonUtility.FromJson<WritebleContainer>(File.ReadAllText(filePath));
             GameObject tmp;
+
             foreach (WritebleView view in container.writebleCastle)
             {
                 Debug.Log("prefabs/blocks/" + view.name);
-                tmp = Instantiate(findBlockByName(view.name),getPosByElement(view.inCastlePos),Quaternion.identity);
+                tmp = Instantiate(findBlockByName(view.name), getPosByElement(view.inCastlePos), Quaternion.identity);
                 tmp.name = view.name;
                 tmp.GetComponent<Cursor>().enabled = false;
                 tmp.GetComponent<Builded>().enabled = true;
@@ -99,7 +100,7 @@ public class Castle : MonoBehaviour
 
     private GameObject findBlockByName(string name)
     {
-        return (GameObject)Resources.Load("prefabs/blocks/"+name, typeof(GameObject));
+        return (GameObject)Resources.Load("prefabs/blocks/" + name, typeof(GameObject));
     }
 
     private void Update()
