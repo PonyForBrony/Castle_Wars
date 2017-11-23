@@ -11,14 +11,15 @@ public class Builded : MonoBehaviour
 
     public bool canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft;
     public bool[] canBuildOn;
+    public bool fallen;
 
     public List<GameObject> colliders;
- 
+
 
     // Use this for initialization
     public void Start() // set new characteristic for builded cube or other object
     {
-
+        fallen = false;
         canBuildOn = new bool[] { canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft };
 
         GetComponent<Renderer>().material = blockMaterial;
@@ -33,8 +34,15 @@ public class Builded : MonoBehaviour
     {
     }
 
+    private void FixedUpdate()
+    {
+        if (fallen)
+            GetComponent<Rigidbody>().WakeUp();
+    }
+
     void setFallen()
     {
+        fallen = true;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().isKinematic = false;
         transform.tag = "Fallen";  // tag for ignore fallen cube
@@ -87,7 +95,7 @@ public class Builded : MonoBehaviour
 
     public WritebleView getWritebleView()
     {
-        return new WritebleView(name,inCastlePos);
+        return new WritebleView(name, inCastlePos);
     }
 }
 
