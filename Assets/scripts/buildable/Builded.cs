@@ -13,6 +13,10 @@ public class Builded : MonoBehaviour
     public bool[] canBuildOn;
     public bool fallen;
 
+    Color color;
+    private float fallTime;
+    public float delayForDestroy = 8, destroyTime = 3;
+
     public List<GameObject> colliders;
 
 
@@ -29,9 +33,29 @@ public class Builded : MonoBehaviour
         GetComponent<MeshCollider>().isTrigger = false;
     }
 
-    // Update is called once per frame
+    bool fadeStarted = false;
+
     void Update()
     {
+        if (fallen)
+        {
+            if (color.a > 0 && (fallTime + delayForDestroy) - Time.time < 0)
+            {
+                /*if (!fadeStarted)
+                {
+                    GetComponent<Renderer>().material.SetFloat("_Mode", 2);              //fade mode
+                    fadeStarted = true;
+                }*/
+                    color.a = ((fallTime + delayForDestroy + destroyTime) - Time.time) / destroyTime;
+                if (color.a >= 0)
+                    GetComponent<Renderer>().material.color = color;
+                Debug.Log(color.a);
+            }
+            else if (color.a <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -43,6 +67,8 @@ public class Builded : MonoBehaviour
     void setFallen()
     {
         fallen = true;
+        fallTime = Time.time;
+        color = GetComponent<Renderer>().material.color;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().isKinematic = false;
         transform.tag = "Fallen";  // tag for ignore fallen cube

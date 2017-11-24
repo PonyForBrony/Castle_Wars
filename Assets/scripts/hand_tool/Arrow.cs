@@ -9,7 +9,7 @@ public class Arrow : MonoBehaviour
     public float damage, velocity;
 
     public float timeForFallingArrow, timeForStucketArrow, destroyTime;
-    private float tmp;
+    private float hitTime;
     private Collider other;
 
     Color color;
@@ -28,11 +28,11 @@ public class Arrow : MonoBehaviour
     {
         if (stucked)
         {
-            tmp = tmp - Time.deltaTime;
-            if (color.a > 0 && tmp < 0)
+            if (color.a > 0 && (hitTime + timeForStucketArrow) - Time.time < 0)
             {
-                color.a = color.a - Time.deltaTime / destroyTime;
-                GetComponent<Renderer>().material.color = color;
+                color.a = ((hitTime + timeForStucketArrow + destroyTime) - Time.time) / destroyTime;
+                if (color.a >= 0)
+                    GetComponent<Renderer>().material.color = color;
             }
             else if (color.a <= 0)
             {
@@ -56,12 +56,12 @@ public class Arrow : MonoBehaviour
         {
             Transform handler = other.transform.Find("ChildrenHandler");
 
-            if(handler != null)
+            if (handler != null)
                 transform.SetParent(handler);
             else
                 transform.SetParent(other.transform);
 
-            tmp = timeForStucketArrow;
+            hitTime = Time.time;
             color = GetComponent<Renderer>().material.color;
             this.other = other;
 
@@ -73,6 +73,7 @@ public class Arrow : MonoBehaviour
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             GetComponent<Rigidbody>().isKinematic = true;
             stucked = true;
+            hitTime = Time.time;
         }
     }
 

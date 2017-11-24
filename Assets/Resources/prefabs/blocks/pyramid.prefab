@@ -152,7 +152,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1941993770411460}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6698b2cf601b02e48be53bca4ffbac4d, type: 3}
   m_Name: 
@@ -166,4 +166,6 @@ MonoBehaviour:
   canBuildOnLeft: 0
   canBuildOn: 
   fallen: 0
+  delayForDestroy: 8
+  destroyTime: 3
   colliders: []

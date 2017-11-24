@@ -135,6 +135,9 @@ MonoBehaviour:
   canBuildOnRight: 1
   canBuildOnLeft: 1
   canBuildOn: 
+  fallen: 0
+  delayForDestroy: 8
+  destroyTime: 3
   colliders: []
 --- !u!114 &114134244322541618
 MonoBehaviour:
