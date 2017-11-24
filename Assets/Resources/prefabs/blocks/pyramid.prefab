@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 64122851538858036}
   m_Layer: 0
   m_Name: pyramid
-  m_TagString: Untagged
+  m_TagString: Buildable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,7 +115,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 1
   m_SkinWidth: 1.00000005e-20
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: fa1c18c6878fe754286d8b9f00be7e5b, type: 3}
 --- !u!114 &114571400398518650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,4 +165,5 @@ MonoBehaviour:
   canBuildOnRight: 0
   canBuildOnLeft: 0
   canBuildOn: 
+  fallen: 0
   colliders: []

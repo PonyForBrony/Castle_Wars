@@ -80,7 +80,6 @@ public class Castle : MonoBehaviour
 
             foreach (WritebleView view in container.writebleCastle)
             {
-                Debug.Log("prefabs/blocks/" + view.name);
                 tmp = Instantiate(findBlockByName(view.name), getPosByElement(view.inCastlePos), Quaternion.identity);
                 tmp.name = view.name;
                 tmp.GetComponent<Cursor>().enabled = false;

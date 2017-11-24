@@ -28,7 +28,7 @@ public class Bow : MonoBehaviour
 
     void operate(int button)
     {
-        if (button == 0 && Time.time-startTime >= rechargeDelay)
+        if (button == 0 && Time.time-startTime >= rechargeDelay && instance != null)
         {
             instance.transform.parent = null;
             instance.transform.tag = "Fallen";
