@@ -10,8 +10,8 @@ sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
 *.apk
-*.unitypackage
-/Assets/StreamingAssets*
+*.unitypackagenf
+/Assets/StreamingAssets/*
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

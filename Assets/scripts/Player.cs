@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
                         changeObject(actionMode, toolSelector);
                     Debug.DrawLine(transform.position, hits[0].point, Color.blue);
                     operateObj.SendMessage("prepareToOperate", hits[0]);
-
                 }
                 else
                     Destroy(operateObj);
@@ -73,6 +72,26 @@ public class Player : MonoBehaviour
                     hits[0].transform.SendMessage("prepareToOperate", hits[0]);
                     break;                 //will used when we create builded operateble objects */
         }
+
+        
+        switch (keyListener()[0])
+        {
+            case 1:
+                operateWithObj(0); // pressed LKM
+                break;
+            case 2:
+                operateWithObj(1);  // pressed RKM
+                break;
+            case 3:
+                operateWithObj(2); // released LKM
+                break;
+            case 4:
+                operateWithObj(3); // released RKM
+                break;
+
+
+        }
+
     }
 
     byte[] keyListener()  //return byte array with states of input sensors
@@ -87,13 +106,19 @@ public class Player : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    operateWithObj(0);
                     state[0] = 1;
                 }
                 else if (Input.GetMouseButtonDown(1))
                 {
-                    operateWithObj(1);
                     state[0] = 2;
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    state[0] = 3;
+                }
+                else if (Input.GetMouseButtonUp(1))
+                {
+                    state[0] = 4;
                 }
             }
 
@@ -153,12 +178,15 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+    
 
     private void operateWithObj(int button)
     {
         if (actionMode < 3)
+        {
             operateObj.SendMessage("operate", button);
-        /*else
+        }
+            /*else
             hits[0].transform.SendMessage("operate"); //will used when we create builded operateble objects */
     }
 }
