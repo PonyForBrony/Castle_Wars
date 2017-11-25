@@ -12,6 +12,7 @@ public class Builded : MonoBehaviour
     public bool canBuildOnTop, canBuildOnBottom, canBuildOnFront, canBuildOnBack, canBuildOnRight, canBuildOnLeft;
     public bool[] canBuildOn;
     public bool fallen;
+    bool fadeStarted;
 
     Color color;
     private float fallTime;
@@ -31,9 +32,8 @@ public class Builded : MonoBehaviour
         transform.tag = "Buildable";
         GetComponent<MeshCollider>().enabled = true;
         GetComponent<MeshCollider>().isTrigger = false;
+        fadeStarted = false;
     }
-
-    bool fadeStarted = false;
 
     void Update()
     {
@@ -47,9 +47,9 @@ public class Builded : MonoBehaviour
                     fadeStarted = true;
                 }
                 color.a = ((fallTime + delayForDestroy + destroyTime) - Time.time) / destroyTime;
+
                 if (color.a >= 0)
                     GetComponent<Renderer>().material.color = color;
-                Debug.Log(color.a);
             }
             else if (color.a <= 0)
             {
