@@ -11,6 +11,7 @@ public class Arrow : MonoBehaviour
     public float timeForFallingArrow, timeForStucketArrow, destroyTime;
     private float hitTime;
     private Collider other;
+    private bool fadeStarted;
 
     Color color;
 
@@ -20,6 +21,7 @@ public class Arrow : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<MeshCollider>().enabled = true;
         stucked = false;
+        fadeStarted = false;
 
         GetComponent<Rigidbody>().velocity = transform.forward * velocity; //fly
     }
@@ -30,6 +32,12 @@ public class Arrow : MonoBehaviour
         {
             if (color.a > 0 && (hitTime + timeForStucketArrow) - Time.time < 0)
             {
+                if (!fadeStarted)
+                {
+                    StandardShaderUtils.ChangeRenderMode(GetComponent<Renderer>().material, StandardShaderUtils.BlendMode.Fade);
+                    fadeStarted = true;
+                }
+
                 color.a = ((hitTime + timeForStucketArrow + destroyTime) - Time.time) / destroyTime;
                 if (color.a >= 0)
                     GetComponent<Renderer>().material.color = color;

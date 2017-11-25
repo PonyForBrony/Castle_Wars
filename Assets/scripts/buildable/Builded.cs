@@ -41,11 +41,11 @@ public class Builded : MonoBehaviour
         {
             if (color.a > 0 && (fallTime + delayForDestroy) - Time.time < 0)
             {
-                /*if (!fadeStarted)
+                if (!fadeStarted)
                 {
-                    GetComponent<Renderer>().material.SetFloat("_Mode", 2);              //fade mode
+                    StandardShaderUtils.ChangeRenderMode(GetComponent<Renderer>().material,StandardShaderUtils.BlendMode.Fade);
                     fadeStarted = true;
-                }*/
+                }
                     color.a = ((fallTime + delayForDestroy + destroyTime) - Time.time) / destroyTime;
                 if (color.a >= 0)
                     GetComponent<Renderer>().material.color = color;
