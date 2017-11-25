@@ -10,7 +10,7 @@ sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
 *.apk
-*.unitypackagenf
+*.unitypackage
 /Assets/StreamingAssets/*
  
 # ===================================== #

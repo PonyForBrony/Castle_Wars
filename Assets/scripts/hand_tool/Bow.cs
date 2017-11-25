@@ -12,16 +12,19 @@ public class Bow : MonoBehaviour
     private float startTime;
 
     private Quaternion startAngle;
-    bool doAim = false;
-    bool aimMode = false;
-    private float angle = 0;
-    private float maxAngle = 80f;
-    public float step = 3;
+    private bool doAim = false, aimMode = false;
+    private float angle = 0, step = 10, maxAngle = 60, angleTmp;
+    public Vector3 aimPosition = new Vector3(0, -0.4f, 0.75f);
+    public Vector3 startPosition = new Vector3(0.4f, -0.4f, 0.8f);
+    public Vector3 arrowPosition = new Vector3(0, 0, 0.7f);
+    public Vector3 arrowStartPosition = new Vector3(0, 0, 0);
 
     // Use this for initialization
     void Start()
     {
+        transform.localPosition = startPosition;
         instance = Instantiate(arrow, transform);
+        instance.transform.localPosition = arrowStartPosition;
     }
 
     // Update is called once per frame
@@ -34,23 +37,40 @@ public class Bow : MonoBehaviour
 
         if (doAim)
         {
-            if (angle >= -maxAngle && aimMode)
+            if (aimMode)
             {
-                angle -= step;
-                transform.localRotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), 1);
+                if (angle >= -maxAngle)
+                {
+                    angle = angle - maxAngle / step;
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, angle - maxAngle / step), 1);
+                    angleTmp = -angle;
+                }
+                if (transform.localPosition != aimPosition)
+                {
+                    transform.localPosition += (aimPosition - startPosition) / step;
+                    instance.transform.localPosition += (arrowPosition - arrowStartPosition) / step;
+                }
             }
             
-            if (!aimMode && angle <= 0)
+            if (!aimMode)
             {
-                angle += step;
-                transform.localRotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), 1);
+                if (angle <= 0)
+                {
+                    angle = angle + angleTmp / step;
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, angle), 1);
+                }
+                if (transform.localPosition != startPosition)
+                {
+                    transform.localPosition += (startPosition - aimPosition) / step;
+                    instance.transform.localPosition += (arrowStartPosition - arrowPosition) / step;
+                }
             }
         }
     }
 
     void operate(int button)
     {
-        if (button == 0 && Time.time-startTime >= rechargeDelay && instance != null && angle < -75)
+        if (button == 0 && Time.time-startTime >= rechargeDelay && instance != null)
         {
             instance.transform.parent = null;
             instance.transform.tag = "Fallen";
@@ -60,11 +80,13 @@ public class Bow : MonoBehaviour
         }
         else if (button == 1)
         {
+            Debug.Log(instance.transform.localPosition);
             doAim = true;
             aimMode = true;
         }
         else if (button == 3)
         {
+            Debug.Log(instance.transform.localPosition);
             aimMode = false;
         }
     }
