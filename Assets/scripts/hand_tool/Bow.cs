@@ -80,13 +80,13 @@ public class Bow : MonoBehaviour
         }
         else if (button == 1)
         {
-            Debug.Log(instance.transform.localPosition);
+            //Debug.Log(instance.transform.localPosition);
             doAim = true;
             aimMode = true;
         }
         else if (button == 3)
         {
-            Debug.Log(instance.transform.localPosition);
+            //Debug.Log(instance.transform.localPosition);
             aimMode = false;
         }
     }
