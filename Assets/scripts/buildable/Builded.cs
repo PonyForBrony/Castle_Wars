@@ -43,10 +43,10 @@ public class Builded : MonoBehaviour
             {
                 if (!fadeStarted)
                 {
-                    StandardShaderUtils.ChangeRenderMode(GetComponent<Renderer>().material,StandardShaderUtils.BlendMode.Fade);
+                    StandardShaderUtils.ChangeRenderMode(GetComponent<Renderer>().material, StandardShaderUtils.BlendMode.Fade);
                     fadeStarted = true;
                 }
-                    color.a = ((fallTime + delayForDestroy + destroyTime) - Time.time) / destroyTime;
+                color.a = ((fallTime + delayForDestroy + destroyTime) - Time.time) / destroyTime;
                 if (color.a >= 0)
                     GetComponent<Renderer>().material.color = color;
                 Debug.Log(color.a);
@@ -60,7 +60,7 @@ public class Builded : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (fallen)
+        if (fallen && GetComponent<Rigidbody>().IsSleeping())
             GetComponent<Rigidbody>().WakeUp();
     }
 
