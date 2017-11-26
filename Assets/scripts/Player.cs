@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private GameObject operateObj;    //current player choice
 
     public int actionMode, toolSelector;    //am = 1->build , am = 2->operate with handed , am = 3->operate with landed
-
+    private byte[] inputState;
 
     // Use this for initialization
     void Start()
@@ -40,8 +40,25 @@ public class Player : MonoBehaviour
         hits = Physics.RaycastAll(rayToLand, maxBuildDist).OrderBy(h => h.distance).ToArray();
         if (Input.anyKey || Input.GetAxis("Mouse ScrollWheel") != 0f)
         {
-            if (keyListener()[1] == 1) //state change object = true
+            inputState = keyListener();
+            if (inputState[1] == 1) //state change object = true
                 changeObject(actionMode, toolSelector);
+
+            switch (inputState[0])
+            {
+                case 1:
+                    operateWithObj(0); // pressed LKM
+                    break;
+                case 2:
+                    operateWithObj(1);  // pressed RKM
+                    break;
+                case 3:
+                    operateWithObj(2); // released LKM
+                    break;
+                case 4:
+                    operateWithObj(3); // released RKM
+                    break;
+            }
         }
 
         /* String objects = "";
@@ -72,26 +89,6 @@ public class Player : MonoBehaviour
                     hits[0].transform.SendMessage("prepareToOperate", hits[0]);
                     break;                 //will used when we create builded operateble objects */
         }
-
-        
-        switch (keyListener()[0])
-        {
-            case 1:
-                operateWithObj(0); // pressed LKM
-                break;
-            case 2:
-                operateWithObj(1);  // pressed RKM
-                break;
-            case 3:
-                operateWithObj(2); // released LKM
-                break;
-            case 4:
-                operateWithObj(3); // released RKM
-                break;
-
-
-        }
-
     }
 
     byte[] keyListener()  //return byte array with states of input sensors
