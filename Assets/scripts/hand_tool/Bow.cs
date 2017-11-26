@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,89 +7,100 @@ public class Bow : MonoBehaviour
 {
 
     public GameObject arrow;
-    public float rechargeDelay;
+    public float rechargeDelay, aimingDelay;
 
-    private GameObject instance;
-    private float startTime;
+    private GameObject instArrow;
+    private float shootTime, aimingTime;
 
-    private bool startAiming = false;
-    private float currentAngle = 0, step = 10, maxAngle = 60;
-    public Vector3 bowEndPosition = new Vector3(0, -0.3f, 1.0f); // position when bow/arrow in the middle - endPosition
-    public Vector3 bowStartPosition = new Vector3(0.4f, -0.4f, 0.8f); // position when bow/arrow in the standart position - startPosition
-    public Vector3 arrowEndPosition = new Vector3(0, 0, -0.3f);
-    public Vector3 arrowStartPosition = new Vector3(0, 0, 0);
+    private float angleDiff, positionDiff;
+
+    private bool aiming = false;
+
+    [Serializable]
+    public class TransformState
+    {
+        [SerializeField]
+        public Vector3 bowPosition, arrowPosition;
+
+        [SerializeField]
+        public Quaternion rotatition;
+
+        public TransformState(Vector3 bpos, Vector3 rot, Vector3 apos)
+        {
+            bowPosition = bpos;
+            rotatition = Quaternion.Euler(rot);
+            arrowPosition = apos;
+        }
+    }
+
+    public TransformState[] animStates = {new TransformState(new Vector3(0.4f, -0.4f, 0.8f), Vector3.zero, Vector3.zero),                   //default transform
+                                          new TransformState(new Vector3(0, -0.3f, 1.0f), new Vector3(0,0,-60), new Vector3(0, 0, -0.3f))}; //aimed transform
 
     // Use this for initialization
     void Start()
     {
-        instance = Instantiate(arrow, transform);
+        instArrow = Instantiate(arrow, transform);
 
-        transform.localPosition = bowStartPosition;
-        instance.transform.localPosition = arrowStartPosition;
+        transform.localPosition = animStates[0].bowPosition;
+        instArrow.transform.localPosition = animStates[0].arrowPosition;
+
+        angleDiff = Quaternion.Angle(animStates[0].rotatition, animStates[1].rotatition);
+        positionDiff = (animStates[1].bowPosition - animStates[0].bowPosition).magnitude;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (instance == null && Time.time - startTime >= rechargeDelay)
+        if (instArrow == null && Time.time - shootTime >= rechargeDelay)
         {
-            instance = Instantiate(arrow, transform);
+            instArrow = Instantiate(arrow, transform);
         }
 
-        if (startAiming)
+        if (aiming)
         {
-            if (currentAngle >= -maxAngle)
+            if (aimingTime + aimingDelay > Time.time && transform.localRotation != animStates[1].rotatition)
             {
-                currentAngle = currentAngle - maxAngle / step;
-                if (currentAngle >= -maxAngle)
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, currentAngle), 1);
-                else
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, -maxAngle), 1);
-            }
-            if (transform.localPosition != bowEndPosition)
-            {
-                transform.localPosition += (bowEndPosition - bowStartPosition) / step;
-                instance.transform.localPosition += (arrowEndPosition - arrowStartPosition) / step;
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, animStates[1].rotatition, (Time.deltaTime * angleDiff) / aimingDelay);
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, animStates[1].bowPosition, (Time.deltaTime * positionDiff) / aimingDelay);
+                if (instArrow)
+                    instArrow.transform.localPosition = Vector3.MoveTowards(instArrow.transform.localPosition, animStates[1].arrowPosition, (Time.deltaTime * positionDiff) / aimingDelay);
             }
         }
-
-        if (!startAiming)
+        else
         {
-            if (currentAngle <= 0)
+            if (aimingTime + aimingDelay > Time.time && transform.localRotation != animStates[0].rotatition)
             {
-                currentAngle = currentAngle + maxAngle / step;
-                if (currentAngle < 0)
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, currentAngle), 1);
-                else
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, 0), 1);
-            }
-            if (transform.localPosition != bowStartPosition)
-            {
-                transform.localPosition += (bowStartPosition - bowEndPosition) / step;
-                instance.transform.localPosition += (arrowStartPosition - arrowEndPosition) / step;
+
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, animStates[0].rotatition, (Time.deltaTime * angleDiff) / aimingDelay);
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, animStates[0].bowPosition, (Time.deltaTime * positionDiff) / aimingDelay);
+                if (instArrow)
+                    instArrow.transform.localPosition = Vector3.MoveTowards(instArrow.transform.localPosition, animStates[0].arrowPosition, (Time.deltaTime * positionDiff) / aimingDelay);
             }
         }
     }
 
     void operate(int button)
     {
-        if (button == 0 && Time.time - startTime >= rechargeDelay && instance != null)
+        if (button == 0 && Time.time - shootTime >= rechargeDelay && instArrow != null)
         {
-            instance.transform.parent = null;
-            instance.transform.tag = "Fallen";
-            instance.GetComponent<Arrow>().enabled = true;
-            instance = null;
-            startTime = Time.time;
+            instArrow.transform.parent = null;
+            instArrow.transform.tag = "Fallen";
+            instArrow.GetComponent<Arrow>().enabled = true;
+            instArrow = null;
+            shootTime = Time.time;
         }
-        else if (button == 1)
+
+        if (button == 1)
         {
-            //Debug.Log(instance.transform.localPosition);
-            startAiming = true;
+            aimingTime = Time.time;
+            //Debug.Log(instArrow.transform.localPosition);
+            aiming = true;
         }
         else if (button == 3)
         {
-            //Debug.Log(instance.transform.localPosition);
-            startAiming = false;
+            aimingTime = Time.time;
+            //Debug.Log(instArrow.transform.localPosition);
+            aiming = false;
         }
     }
 }

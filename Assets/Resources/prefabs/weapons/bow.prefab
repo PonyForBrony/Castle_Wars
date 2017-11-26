@@ -51,7 +51,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -96,7 +96,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 1555422837108904, guid: d55e9418f2339a84b9b8e0d843b91b6c, type: 2}
   rechargeDelay: 0.05
-  bowEndPosition: {x: 0, y: -0.3, z: 1}
-  bowStartPosition: {x: 0.4, y: -0.4, z: 0.8}
-  arrowEndPosition: {x: 0, y: 0, z: -0.2}
-  arrowStartPosition: {x: 0, y: 0, z: 0}
+  aimingDelay: 1
+  animStates:
+  - bowPosition: {x: 0.4, y: -0.4, z: 0.8}
+    arrowPosition: {x: 0, y: 0, z: 0}
+    rotatition: {x: 0, y: 0, z: 0, w: 1}
+  - bowPosition: {x: 0, y: -0.3, z: 1}
+    arrowPosition: {x: 0, y: 0, z: -0.3}
+    rotatition: {x: 0, y: 0, z: -0.5, w: 0.8660254}
