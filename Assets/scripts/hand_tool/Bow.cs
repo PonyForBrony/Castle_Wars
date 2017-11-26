@@ -11,19 +11,19 @@ public class Bow : MonoBehaviour
     private GameObject instance;
     private float startTime;
 
-    private Quaternion startAngle;
-    private bool doAim = false, aimMode = false;
-    private float angle = 0, step = 10, maxAngle = 60, angleTmp;
-    public Vector3 aimPosition = new Vector3(0, -0.4f, 0.75f);
-    public Vector3 startPosition = new Vector3(0.4f, -0.4f, 0.8f);
-    public Vector3 arrowPosition = new Vector3(0, 0, 0.7f);
+    private bool startAiming = false;
+    private float currentAngle = 0, step = 10, maxAngle = 60;
+    public Vector3 bowEndPosition = new Vector3(0, -0.3f, 1.0f); // position when bow/arrow in the middle - endPosition
+    public Vector3 bowStartPosition = new Vector3(0.4f, -0.4f, 0.8f); // position when bow/arrow in the standart position - startPosition
+    public Vector3 arrowEndPosition = new Vector3(0, 0, -0.3f);
     public Vector3 arrowStartPosition = new Vector3(0, 0, 0);
 
     // Use this for initialization
     void Start()
     {
-        transform.localPosition = startPosition;
         instance = Instantiate(arrow, transform);
+
+        transform.localPosition = bowStartPosition;
         instance.transform.localPosition = arrowStartPosition;
     }
 
@@ -35,42 +35,44 @@ public class Bow : MonoBehaviour
             instance = Instantiate(arrow, transform);
         }
 
-        if (doAim)
+        if (startAiming)
         {
-            if (aimMode)
+            if (currentAngle >= -maxAngle)
             {
-                if (angle >= -maxAngle)
-                {
-                    angle = angle - maxAngle / step;
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, angle - maxAngle / step), 1);
-                    angleTmp = -angle;
-                }
-                if (transform.localPosition != aimPosition)
-                {
-                    transform.localPosition += (aimPosition - startPosition) / step;
-                    instance.transform.localPosition += (arrowPosition - arrowStartPosition) / step;
-                }
+                currentAngle = currentAngle - maxAngle / step;
+                if (currentAngle >= -maxAngle)
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, currentAngle), 1);
+                else
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, -maxAngle), 1);
             }
-            
-            if (!aimMode)
+            if (transform.localPosition != bowEndPosition)
             {
-                if (angle <= 0)
-                {
-                    angle = angle + angleTmp / step;
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, angle), 1);
-                }
-                if (transform.localPosition != startPosition)
-                {
-                    transform.localPosition += (startPosition - aimPosition) / step;
-                    instance.transform.localPosition += (arrowStartPosition - arrowPosition) / step;
-                }
+                transform.localPosition += (bowEndPosition - bowStartPosition) / step;
+                instance.transform.localPosition += (arrowEndPosition - arrowStartPosition) / step;
+            }
+        }
+
+        if (!startAiming)
+        {
+            if (currentAngle <= 0)
+            {
+                currentAngle = currentAngle + maxAngle / step;
+                if (currentAngle < 0)
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, currentAngle), 1);
+                else
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, 0), 1);
+            }
+            if (transform.localPosition != bowStartPosition)
+            {
+                transform.localPosition += (bowStartPosition - bowEndPosition) / step;
+                instance.transform.localPosition += (arrowStartPosition - arrowEndPosition) / step;
             }
         }
     }
 
     void operate(int button)
     {
-        if (button == 0 && Time.time-startTime >= rechargeDelay && instance != null)
+        if (button == 0 && Time.time - startTime >= rechargeDelay && instance != null)
         {
             instance.transform.parent = null;
             instance.transform.tag = "Fallen";
@@ -81,13 +83,12 @@ public class Bow : MonoBehaviour
         else if (button == 1)
         {
             //Debug.Log(instance.transform.localPosition);
-            doAim = true;
-            aimMode = true;
+            startAiming = true;
         }
         else if (button == 3)
         {
             //Debug.Log(instance.transform.localPosition);
-            aimMode = false;
+            startAiming = false;
         }
     }
 }

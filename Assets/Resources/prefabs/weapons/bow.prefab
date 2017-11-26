@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 1555422837108904, guid: d55e9418f2339a84b9b8e0d843b91b6c, type: 2}
   rechargeDelay: 0.05
-  aimPosition: {x: 0, y: -0.3, z: 1}
-  startPosition: {x: 0.4, y: -0.4, z: 0.6}
-  arrowPosition: {x: 0, y: 0, z: -0.2}
+  bowEndPosition: {x: 0, y: -0.3, z: 1}
+  bowStartPosition: {x: 0.4, y: -0.4, z: 0.8}
+  arrowEndPosition: {x: 0, y: 0, z: -0.2}
   arrowStartPosition: {x: 0, y: 0, z: 0}
