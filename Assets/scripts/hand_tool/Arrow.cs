@@ -75,9 +75,10 @@ public class Arrow : MonoBehaviour
 
             if (other.transform.tag != "Ground")
             {
-                other.SendMessage("applyDamage", damage); //will be used after we'll write hp-script
+                other.SendMessage("applyDamage", damage);
                 other.SendMessage("addToColliders", gameObject); //add this arrow to block's colliders list
             }
+            transform.position -= GetComponent<Rigidbody>().velocity * Time.fixedDeltaTime;
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             GetComponent<Rigidbody>().isKinematic = true;
             stucked = true;
