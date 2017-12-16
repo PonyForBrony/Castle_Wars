@@ -5,7 +5,7 @@ using UnityEngine;
 public class Helper
 {
 
-    public static bool ListEquals(List<KeyCode> a, List<KeyCode> b)//mast to be List<T> in future
+    public static bool ListEquals<T>(List<T> a, List<T> b)//mast to be List<T> in future
     {
         if (a != null && b != null)
         {
@@ -14,13 +14,15 @@ public class Helper
             else
                 for (int i = 0; i < a.Count; i++)
                 {
-                    if (a[i] != b[i])
+                    if (a[i].GetHashCode() != b[i].GetHashCode())
                         return false;
                 }
 
             return true;
         }
-        else
+        else if (a == null && b == null)
             return true;
+        else
+            return false;
     }
 }

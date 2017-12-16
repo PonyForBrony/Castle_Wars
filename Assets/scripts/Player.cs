@@ -52,7 +52,7 @@ public class Player : MonoBehaviour, InputListener
         controlsConfig.Add(new InputAction("castle_save", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadPlus)));
         controlsConfig.Add(new InputAction("castle_load", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadMinus)));
         controlsConfig.Add(new InputAction("operate", loadCombination(KeyCode.Mouse0)));
-        controlsConfig.Add(new InputAction("aiming", loadCombination(KeyCode.Mouse0)));
+        controlsConfig.Add(new InputAction("aiming", loadCombination(KeyCode.Mouse1)));
         controlsConfig.Add(new InputAction("actionMode1", loadCombination(KeyCode.Alpha1)));
         controlsConfig.Add(new InputAction("actionMode2", loadCombination(KeyCode.Alpha2)));
         controlsConfig.Add(new InputAction("actionMode3", loadCombination(KeyCode.Alpha3)));
@@ -226,7 +226,7 @@ public class Player : MonoBehaviour, InputListener
         if (controlsConfig != null)
         {
             foreach (InputAction i in controlsConfig)
-                if (Helper.ListEquals(i.combination, InputSpeaker.input))
+                if (Helper.ListEquals<KeyCode>(i.combination, InputSpeaker.input))
                     name = i.name;
         }
         else return;
@@ -240,6 +240,8 @@ public class Player : MonoBehaviour, InputListener
         {
             case "castle_save":
                 Debug.Log("castle saving input");
+                break;
+            case "castle_load":
                 break;
         }*/
     }
