@@ -149,9 +149,9 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_Bias: 0.045
+    m_NormalBias: 0.13
+    m_NearPlane: 0.1
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
@@ -254,7 +254,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: fd655fb1cbb3c7946932a638d8b3deb7, type: 2}
+  - {fileID: 2100000, guid: bb206586db48fe14fa03dcce45753c30, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -465,8 +465,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   castle: {fileID: 0}
   maxBuildDist: 4
-  handTool: {fileID: 1779224461064094, guid: 42aab88b60f8c9a4a8bb5b28191dba22, type: 2}
-  block: {fileID: 1457885683396256, guid: 3502e748680e67e499c686c0554f9918, type: 2}
+  handTool:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  block:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  actionMode: 0
+  toolSelector: 0
 --- !u!114 &1554133816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +557,31 @@ Prefab:
     - target: {fileID: 4510499196136272, guid: a6c28c42ebc3ca7469616a070fa71ed1, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 108061243737104360, guid: a6c28c42ebc3ca7469616a070fa71ed1,
+        type: 2}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 108061243737104360, guid: a6c28c42ebc3ca7469616a070fa71ed1,
+        type: 2}
+      propertyPath: m_Shadows.m_Resolution
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108061243737104360, guid: a6c28c42ebc3ca7469616a070fa71ed1,
+        type: 2}
+      propertyPath: m_Shadows.m_Bias
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 108061243737104360, guid: a6c28c42ebc3ca7469616a070fa71ed1,
+        type: 2}
+      propertyPath: m_Shadows.m_NormalBias
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 108061243737104360, guid: a6c28c42ebc3ca7469616a070fa71ed1,
+        type: 2}
+      propertyPath: m_Shadows.m_NearPlane
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a6c28c42ebc3ca7469616a070fa71ed1, type: 2}

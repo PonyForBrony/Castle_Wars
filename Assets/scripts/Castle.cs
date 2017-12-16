@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -57,11 +55,11 @@ public class Castle : MonoBehaviour
 
         string toJson = JsonUtility.ToJson(container, true);
 
-        Debug.Log(toJson);
+        //Debug.Log(toJson);
 
         File.WriteAllText(filePath, toJson);
 
-        Debug.Log("Castle saved!");
+        //Debug.Log("Castle saved!");
     }
 
     private void loadFromFile()
@@ -91,7 +89,7 @@ public class Castle : MonoBehaviour
                 tmp.transform.SetParent(transform);
             }
 
-            Debug.Log("Castle loaded!");
+            //Debug.Log("Castle loaded!");
         }
         else
             Debug.LogAssertion("File does not exist!");

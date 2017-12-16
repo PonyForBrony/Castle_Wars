@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, InputListener
 {
     public GameObject castle;
 
@@ -19,6 +18,20 @@ public class Player : MonoBehaviour
     public int actionMode, toolSelector;    //am = 1->build , am = 2->operate with handed , am = 3->operate with landed
     private byte[] inputState;
 
+    struct InputAction
+    {
+        public string name;
+        public List<KeyCode> combination;
+
+        public InputAction(string name, List<KeyCode> combination)
+        {
+            this.name = name;
+            this.combination = combination;
+        }
+    }
+
+    List<InputAction> controlsConfig;
+
     // Use this for initialization
     void Start()
     {
@@ -29,12 +42,31 @@ public class Player : MonoBehaviour
         rayToLand = new Ray();
         actionMode = 3;
         toolSelector = 0;
+        InputSpeaker.addToListeners(this);
+        controlsConfig = loadControls();
+    }
+
+    List<InputAction> loadControls() //will be reading from json file
+    {
+        controlsConfig = new List<InputAction>();
+        controlsConfig.Add(new InputAction("castle_save", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadPlus)));
+        controlsConfig.Add(new InputAction("castle_load", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadMinus)));
+        controlsConfig.Add(new InputAction("operate", loadCombination(KeyCode.Mouse0)));
+        controlsConfig.Add(new InputAction("aiming", loadCombination(KeyCode.Mouse0)));
+        controlsConfig.Add(new InputAction("actionMode1", loadCombination(KeyCode.Alpha1)));
+        controlsConfig.Add(new InputAction("actionMode2", loadCombination(KeyCode.Alpha2)));
+        controlsConfig.Add(new InputAction("actionMode3", loadCombination(KeyCode.Alpha3)));
+        return controlsConfig;
+    }
+
+    List<KeyCode> loadCombination(params KeyCode[] array)
+    {
+        return new List<KeyCode>(array);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         rayToLand.origin = transform.position;
         rayToLand.direction = transform.forward;
         hits = Physics.RaycastAll(rayToLand, maxBuildDist).OrderBy(h => h.distance).ToArray();
@@ -50,7 +82,7 @@ public class Player : MonoBehaviour
                     operateWithObj(0); // pressed LKM
                     break;
                 case 2:
-                    operateWithObj(1);  // pressed RKM
+                    operateWithObj(1); // pressed RKM
                     break;
                 case 3:
                     operateWithObj(2); // released LKM
@@ -175,7 +207,7 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-    
+
 
     private void operateWithObj(int button)
     {
@@ -183,7 +215,40 @@ public class Player : MonoBehaviour
         {
             operateObj.SendMessage("operate", button);
         }
-            /*else
-            hits[0].transform.SendMessage("operate"); //will used when we create builded operateble objects */
+        /*else
+        hits[0].transform.SendMessage("operate"); //will used when we create builded operateble objects */
+    }
+
+    void InputListener.onKeyDown(KeyCode key)
+    {
+        string name = null;
+
+        if (controlsConfig != null)
+        {
+            foreach (InputAction i in controlsConfig)
+                if (Helper.ListEquals(i.combination, InputSpeaker.input))
+                    name = i.name;
+        }
+        else return;
+
+        if (name == null)
+            return;
+
+        Debug.Log(name);
+
+        /*switch (name)
+        {
+            case "castle_save":
+                Debug.Log("castle saving input");
+                break;
+        }*/
+    }
+
+    void InputListener.onKeyUp(KeyCode key)
+    {
+    }
+
+    void InputListener.onMouseScroll(float delta)
+    {
     }
 }
