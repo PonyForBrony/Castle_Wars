@@ -18,18 +18,6 @@ public class Player : MonoBehaviour, InputListener
     public int actionMode, toolSelector;    //am = 1->build , am = 2->operate with handed , am = 3->operate with landed
     private byte[] inputState;
 
-    struct InputAction
-    {
-        public string name;
-        public List<KeyCode> combination;
-
-        public InputAction(string name, List<KeyCode> combination)
-        {
-            this.name = name;
-            this.combination = combination;
-        }
-    }
-
     List<InputAction> controlsConfig;
 
     // Use this for initialization
@@ -43,25 +31,7 @@ public class Player : MonoBehaviour, InputListener
         actionMode = 3;
         toolSelector = 0;
         InputSpeaker.addToListeners(this);
-        controlsConfig = loadControls();
-    }
-
-    List<InputAction> loadControls() //will be reading from json file
-    {
-        controlsConfig = new List<InputAction>();
-        controlsConfig.Add(new InputAction("castle_save", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadPlus)));
-        controlsConfig.Add(new InputAction("castle_load", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadMinus)));
-        controlsConfig.Add(new InputAction("operate", loadCombination(KeyCode.Mouse0)));
-        controlsConfig.Add(new InputAction("aiming", loadCombination(KeyCode.Mouse1)));
-        controlsConfig.Add(new InputAction("actionMode1", loadCombination(KeyCode.Alpha1)));
-        controlsConfig.Add(new InputAction("actionMode2", loadCombination(KeyCode.Alpha2)));
-        controlsConfig.Add(new InputAction("actionMode3", loadCombination(KeyCode.Alpha3)));
-        return controlsConfig;
-    }
-
-    List<KeyCode> loadCombination(params KeyCode[] array)
-    {
-        return new List<KeyCode>(array);
+        controlsConfig = InputSpeaker.loadCombinations(this);
     }
 
     // Update is called once per frame
@@ -221,11 +191,13 @@ public class Player : MonoBehaviour, InputListener
 
     void InputListener.onKeyDown(KeyCode key)
     {
+
         string name = null;
 
         if (controlsConfig != null)
         {
             foreach (InputAction i in controlsConfig)
+                /*foreach*/
                 if (Helper.ListEquals<KeyCode>(i.combination, InputSpeaker.input))
                     name = i.name;
         }
@@ -236,14 +208,23 @@ public class Player : MonoBehaviour, InputListener
 
         Debug.Log(name);
 
-        /*switch (name)
+        switch (name)
         {
             case "castle_save":
-                Debug.Log("castle saving input");
                 break;
             case "castle_load":
                 break;
-        }*/
+            case "operate":
+                break;
+            case "aiming":
+                break;
+            case "actionMode1":
+                break;
+            case "actionMode2":
+                break;
+            case "actionMode3":
+                break;
+        }
     }
 
     void InputListener.onKeyUp(KeyCode key)
@@ -252,5 +233,10 @@ public class Player : MonoBehaviour, InputListener
 
     void InputListener.onMouseScroll(float delta)
     {
+    }
+
+    string InputListener.getName()
+    {
+        return "player";
     }
 }

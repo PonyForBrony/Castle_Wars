@@ -10,6 +10,7 @@ public class InputSpeaker : MonoBehaviour
     public static List<KeyCode> ignoreKeyboard;
     static List<InputListener> listeners;
 
+
     private void Awake()
     {
         input = new List<KeyCode>();
@@ -108,6 +109,41 @@ public class InputSpeaker : MonoBehaviour
         else
             ignoreMouse.Remove(key);
     }
+
+    public static List<InputAction> loadCombinations(InputListener listener)
+    {
+        List<InputAction> controlsConfig = null;
+        if (listener.getName() == "player") //will be reading from json
+        {
+            controlsConfig = new List<InputAction>();
+            controlsConfig.Add(new InputAction("castle_save", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadPlus)));
+            controlsConfig.Add(new InputAction("castle_load", loadCombination(KeyCode.KeypadEnter, KeyCode.KeypadMinus)));
+            controlsConfig.Add(new InputAction("operate", loadCombination(KeyCode.Mouse0)));
+            controlsConfig.Add(new InputAction("aiming", loadCombination(KeyCode.Mouse1)));
+            controlsConfig.Add(new InputAction("actionMode1", loadCombination(KeyCode.Alpha1)));
+            controlsConfig.Add(new InputAction("actionMode2", loadCombination(KeyCode.Alpha2)));
+            controlsConfig.Add(new InputAction("actionMode3", loadCombination(KeyCode.Alpha3)));
+        }
+
+        return controlsConfig;
+    }
+
+    static List<KeyCode> loadCombination(params KeyCode[] array)
+    {
+        return new List<KeyCode>(array);
+    }
+}
+
+public struct InputAction
+{
+    public string name;
+    public List<KeyCode> combination;
+
+    public InputAction(string name, List<KeyCode> combination)
+    {
+        this.name = name;
+        this.combination = combination;
+    }
 }
 
 public interface InputListener
@@ -115,4 +151,5 @@ public interface InputListener
     void onKeyDown(KeyCode key);
     void onKeyUp(KeyCode key);
     void onMouseScroll(float delta);
+    string getName();
 }

@@ -51,7 +51,7 @@ public class Castle : MonoBehaviour
             writebleCastle.Add(block.getWritebleView());
         }
 
-        WritebleContainer container = new WritebleContainer(writebleCastle);
+        WritebleContainer container = new WritebleContainer(writebleCastle);    
 
         string toJson = JsonUtility.ToJson(container, true);
 
