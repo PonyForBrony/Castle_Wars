@@ -5,7 +5,7 @@ using UnityEngine;
 public class Helper
 {
 
-    public static bool ListEquals<T>(List<T> a, List<T> b)//mast to be List<T> in future
+    public static bool ListEquals<T>(List<T> a, List<T> b)
     {
         if (a != null && b != null)
         {
