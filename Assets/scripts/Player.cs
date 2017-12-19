@@ -18,23 +18,13 @@ public class Player : MonoBehaviour, InputListener
     public int actionMode, toolSelector;    //am = 1->build , am = 2->operate with handed , am = 3->operate with landed
     private byte[] inputState;
 
-    //ITree<int> key;
+    
 
     List<InputAction> controlsConfig;
 
     // Use this for initialization
     void Start()
     {
-        /*key = new ITree<int>();
-        key.setRoot();
-        key.current.addChildren(1);
-        key.current.addChildren(100);
-        foreach (ITree<int>.ITreeElement<int> v in key.current.getChildren())
-        {
-            if (v.value == 100)
-                v.value++;
-            Debug.Log(v.value);
-        }*/
 
         handTool = Resources.LoadAll<GameObject>("prefabs/weapons");
         block = Resources.LoadAll<GameObject>("prefabs/blocks");

@@ -6,15 +6,15 @@ using UnityEngine;
 public class ITree<T>
 {
 
-    public ITreeElement<T> root;
-    public ITreeElement<T> current;
+    ITreeElement<T> root;
 
-
-    public ITreeElement<T> setRoot()
+    public ITree()
     {
         root = new ITreeElement<T>();
-        current = root;
+    }
 
+    public ITreeElement<T> getRoot()
+    {
         return root;
     }
 
@@ -23,153 +23,145 @@ public class ITree<T>
         return root.getChildren().Count == 0;
     }
 
-    public void headRoot()
+    /*getBranches*/
+    public List<ITreeBranch<T>> getBranches(ITreeElement<T> junc)
     {
-        current = root;
-    }
+        List<ITreeBranch<T>> branches = new List<ITreeBranch<T>>();
+        List<ITreeElement<T>> lasts = new List<ITreeElement<T>>();
+        getLasts(junc, lasts); // out lasts
 
-    public void headParent()
-    {
-        if (current != root)
-            current = current.getParent();
-    }
-
-    /*public bool treeEquals(ITree<T> tree)
-    {
-        ITreeElement<T> startHead = current;
-        ITreeElement<T> startHeadTree = tree.current;
-
-        headRoot();
-        tree.headRoot();
-
-        return checkChildren(tree);
-    }
-
-    private bool checkChildren(ITree<T> tree)
-    {
-        if (tree.current.getChildren().Equals(current.getChildren()))
+        foreach (ITreeElement<T> iter in lasts)
         {
+            branches.Add(getBranch(iter));
+        }
+        return branches;
+    }
 
-            foreach (ITreeElement<T> n in treeElement.getChildren())
+    private void getLasts(ITreeElement<T> elem, List<ITreeElement<T>> lasts)
+    {
+        if (!elem.isLast())
+        {
+            foreach (ITreeElement<T> iter in elem.getChildren())
             {
-
+                getLasts(iter, lasts);
             }
         }
         else
-            return false;
-            
-    }*/
-    
-
-    public class ITreeElement<L>
-    {
-        public L value;
-        ITreeElement<L> parent;
-        List<ITreeElement<L>> children;
-
-        public ITreeElement(L value, ITreeElement<L> parent)
-        {
-            this.value = value;
-            this.parent = parent;
-            children = new List<ITreeElement<L>>();
-        }
-
-        public ITreeElement()
-        {
-            children = new List<ITreeElement<L>>();
-        }
-
-        public List<ITreeElement<L>> getChildren()
-        {
-            return children;
-        }
-
-        public ITreeElement<L> getParent()
-        {
-            return parent;
-        }
-
-        public void addChildren(L value)
-        {
-            children.Add(new ITreeElement<L>(value, this));
-        }
-
-        public bool isLast()
-        {
-            if (children == null)
-                return true;
-            else
-                return false;
-        }
+            lasts.Add(elem);
     }
 
-    /*public class TreeElement<L> : IEnumerable
+    private ITreeBranch<T> getBranch(ITreeElement<T> element)
     {
-        private ITreeElement<L>[] _treeElement;
-        public TreeElement(ITreeElement<L>[] pArray)
+        if (element.isLast())
         {
-            _treeElement = new ITreeElement<L>[pArray.Length];
-
-            for (int i = 0; i < pArray.Length; i++)
+            ITreeBranch<T> branch = new ITreeBranch<T>(element.getBranchName());
+            while (element != getRoot())
             {
-                _treeElement[i] = pArray[i];
+                branch.Add(element);
+                element = element.getParent();
             }
-        }
 
-        IEnumerator IEnumerable.GetEnumerator()
+            branch.Reverse();
+            return branch;
+        }
+        else
+            Debug.LogError("Can't get branch by non-last element  (" + this.ToString() + ")");
+        return null;
+    }
+    /*getBranches*/
+}
+
+public class ITreeElement<T>
+{
+    public T value;
+    ITreeElement<T> parent;
+    List<ITreeElement<T>> children;
+
+    private string branchName;
+
+    public ITreeElement(T value, ITreeElement<T> parent)
+    {
+        this.value = value;
+        this.parent = parent;
+    }
+
+    public ITreeElement()
+    {
+
+    }
+
+    public List<ITreeElement<T>> getChildren()
+    {
+        return children;
+    }
+
+    public ITreeElement<T> getParent()
+    {
+        return parent;
+    }
+
+    public ITreeElement<T> addChild(T value)
+    {
+        ITreeElement<T> child = new ITreeElement<T>(value, this);
+
+        if (children == null)
+            children = new List<ITreeElement<T>>();
+
+        children.Add(child);
+
+        return child;
+    }
+
+    public bool isLast()
+    {
+        if (children == null || branchName != null)
+            return true;
+        else
+            return false;
+    }
+
+    public override string ToString()
+    {
+        if (value != null)
+            return value.ToString();
+        else
+            return null;
+    }
+
+    public void setBranchName(string name)
+    {
+        if (isLast())
+            branchName = name;
+        else
+            Debug.LogError("Can't set branch name by non-last element  (" + this.ToString() + ")");
+    }
+
+    public string getBranchName()
+    {
+        return branchName;
+    }
+}
+
+public class ITreeBranch<T> : List<ITreeElement<T>>
+{
+    public string name;
+
+    public ITreeBranch(string name)
+    {
+        this.name = name;
+    }
+
+    public override string ToString()
+    {
+        string res = name + ":  { root ; ";
+        foreach (ITreeElement<T> i in this)
         {
-            return GetEnumerator();
+            if (!i.isLast())
+                res += i.ToString() + " ; ";
+            else
+                res += i.ToString() + " }";
         }
-
-        public ITreeElementEnum<L> GetEnumerator()
-        {
-            return new ITreeElementEnum<L>(_treeElement);
-        }
-
-        public class ITreeElementEnum<K> : IEnumerator
-        {
-            public ITreeElement<K>[] _treeElement;
-
-            int position = -1;
-
-            public ITreeElementEnum(ITreeElement<K>[] list)
-            {
-                _treeElement = list;
-            }
-
-            public bool MoveNext()
-            {
-                position++;
-                return (position < _treeElement.Length);
-            }
-
-            public void Reset()
-            {
-                position = -1;
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return Current;
-                }
-            }
-
-            public ITreeElement<K> Current
-            {
-                get
-                {
-                    try
-                    {
-                        return _treeElement[position];
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                }
-            }
-        }
-    }*/
+        return res;
+        //return name;
+    }
 }
