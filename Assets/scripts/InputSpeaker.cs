@@ -23,7 +23,7 @@ public class InputSpeaker : MonoBehaviour
     void OnGUI()
     {
 
-        foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
+        /*foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
         {
             bool keyDown = Input.GetKey(key);
 
@@ -36,14 +36,35 @@ public class InputSpeaker : MonoBehaviour
                 onKeyUp(key);
             }
 
+        }*/
+
+        Event e = Event.current;
+        //Debug.Log(Event.GetEventCount());
+        for (int i = 0; i < Event.GetEventCount(); i++)
+        {
+            Event.PopEvent(e);
+            if (e.isKey && e.keyCode != KeyCode.None)
+            {
+                if (e.type == EventType.KeyUp && input.Contains(e.keyCode))
+                    input.Remove(e.keyCode);
+                else if (e.type == EventType.KeyDown && !input.Contains(e.keyCode))
+                    input.Add(e.keyCode);
+            }
         }
 
-        /*string a = "";
-        foreach(KeyCode k in input)
+        for (int i = 0; i < input.Count; i++)
+            if (!Input.GetKey(input[i]))
+            {
+                input.Remove(input[i]);
+                i--;
+            }
+
+        string a = "";
+        foreach (KeyCode k in input)
         {
             a += k.ToString() + "  ";
         }
-        Debug.Log(a); //debugging pressed keys */
+        Debug.Log(a); //debugging pressed keys
     }
 
     private void Update()
