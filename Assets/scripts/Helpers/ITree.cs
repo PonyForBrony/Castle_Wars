@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ITree<T>
+public class ITree<T> // create not-binary tree
 {
 
     ITreeElement<T> root;
@@ -24,7 +24,7 @@ public class ITree<T>
     }
 
     /*getBranches*/
-    public List<ITreeBranch<T>> getBranches(ITreeElement<T> junc)
+    public List<ITreeBranch<T>> getBranches(ITreeElement<T> junc) // return list of branches, that belong to the junk
     {
         List<ITreeBranch<T>> branches = new List<ITreeBranch<T>>();
         List<ITreeElement<T>> lasts = new List<ITreeElement<T>>();
@@ -50,7 +50,7 @@ public class ITree<T>
             lasts.Add(elem);
     }
 
-    private ITreeBranch<T> getBranch(ITreeElement<T> element)
+    private ITreeBranch<T> getBranch(ITreeElement<T> element) // iteration and add to list from last element to root
     {
         if (element.isLast())
         {
@@ -71,13 +71,13 @@ public class ITree<T>
     /*getBranches*/
 }
 
-public class ITreeElement<T>
+public class ITreeElement<T> // element of tree
 {
     public T value;
     ITreeElement<T> parent;
     List<ITreeElement<T>> children;
 
-    private string branchName;
+    private string branchName; // only for last element
 
     public ITreeElement(T value, ITreeElement<T> parent)
     {
@@ -85,7 +85,7 @@ public class ITreeElement<T>
         this.parent = parent;
     }
 
-    public ITreeElement()
+    public ITreeElement() // only for root
     {
 
     }
@@ -128,7 +128,7 @@ public class ITreeElement<T>
             return null;
     }
 
-    public void setBranchName(string name)
+    public void setBranchName(string name) // using only with last elements
     {
         if (isLast())
             branchName = name;
@@ -142,7 +142,7 @@ public class ITreeElement<T>
     }
 }
 
-public class ITreeBranch<T> : List<ITreeElement<T>>
+public class ITreeBranch<T> : List<ITreeElement<T>> // branch - list tree elements from root to last element (every branch have name, that is stored in last element of a branch)
 {
     public string name;
 
@@ -161,7 +161,6 @@ public class ITreeBranch<T> : List<ITreeElement<T>>
             else
                 res += i.ToString() + " }";
         }
-        return res;
-        //return name;
+        return res; //return branch name + all elements belong to branch;
     }
 }
